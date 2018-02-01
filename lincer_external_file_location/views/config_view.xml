@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="config_form" model="ir.ui.view">
+            <field name="name">External File Task Config</field>
+            <field name="model">external.file.task.config</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="model_id" required="1" options="{'no_create': True}"/>
+                            <field name="field_id" required="1" domain="[('ttype','=','many2one'), ('relation','=','ir.attachment'), ('model_id', '=',model_id)]"/>
+                            <field name="domain"/>
+                            <field name="task_id" required="1" options="{'no_create': True}" domain="[('method_type','=','export')]"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="config_view" model="ir.ui.view">
+            <field name="name">File Task Config</field>
+            <field name="model">external.file.task.config</field>
+            <field name="arch" type="xml">
+                <tree string="External File Task Config">
+                    <field name="model_id"/>
+                    <field name="field_id"/>
+                    <field name="domain"/>
+                    <field name="task_id"/>
+                </tree>
+            </field>
+        </record>
+
+         <record id="config_action" model="ir.actions.act_window">
+                <field name="name">File Task Config</field>
+                <field name="res_model">external.file.task.config</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+        </record>
+
+    <menuitem id="external_file_task_config_menu" action="config_action" sequence="40" parent="base.menu_automation"/>
+    </data>
+</odoo>

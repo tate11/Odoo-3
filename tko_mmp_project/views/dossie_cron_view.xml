@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record model="ir.cron" id="dossie_cron_task">
+           <field name="name">Dossie.Dossie Cron Task</field>
+           <field name="interval_number">1</field>
+           <field name="interval_type">days</field>
+           <field name="numbercall">-1</field>
+           <field name="model" eval="'dossie.dossie'"/>
+           <field name="function" eval="'_cron_dossie_task'"/>
+           <field name="args" eval="'()'"/>
+        </record>
+        <record model="ir.cron" id="juiz_grupo_relational_task">
+           <field name="name">Juiz Grupo Relation Cron Task</field>
+           <field name="interval_number">1</field>
+           <field name="interval_type">days</field>
+           <field name="numbercall">-1</field>
+           <field name="model" eval="'juiz.grupo.relation'"/>
+           <field name="function" eval="'_cron_juiz_grupo_relation_task'"/>
+           <field name="args" eval="'()'"/>
+        </record>
+        <record model="ir.cron" id="cron_dossie_movimentacao">
+           <field name="name">Dossie Movimentacao Cron Task</field>
+           <field name="interval_number">1</field>
+           <field name="interval_type">days</field>
+           <field name="numbercall">-1</field>
+           <field name="model" eval="'dossie.movimentacao'"/>
+           <field name="function" eval="'_cron_dossie_movimentacao'"/>
+           <field name="args" eval="'()'"/>
+        </record>
+    </data>
+</odoo>

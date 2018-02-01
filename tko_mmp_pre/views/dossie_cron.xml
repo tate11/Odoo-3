@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<openerp>
+    <data>
+        <record model="ir.cron" id="dossie_count_cron">
+           <field name="name">Count Dossies</field>
+           <field name="interval_number">1</field>
+           <field name="interval_type">days</field>
+           <field name="numbercall">-1</field>
+           <field name="model" eval="'mmp.pre.dossie'"/>
+           <field name="function" eval="'_cron_get_dossie_count'"/>
+           <field name="args" eval="'()'"/>
+        </record>
+    </data>
+</openerp>

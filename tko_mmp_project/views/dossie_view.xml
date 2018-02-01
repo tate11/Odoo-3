@@ -1,0 +1,970 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- ########## DOSSIÊ ########## -->
+
+    <record model="ir.ui.view" id="dossie_form_view">
+        <field name="name">Dossiê</field>
+        <field name="model">dossie.dossie</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button class="oe_stat_button" string="Compromisso" name="create_new_task" type="object"
+                            icon="fa-plus">
+                    </button>
+                    <field name="state" widget="statusbar" clickable="True"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="count_tasks" string="Compromissos" type="object" class="oe_stat_button"
+                                icon="fa-tasks"/>
+                        <button name="count_action_lines" string="Ações" type="object" class="oe_stat_button"
+                                icon="fa-tasks"/>
+                        <button name="attachment_tree_view" string="Documentos" type="object" class="oe_stat_button"
+                                icon="fa-files-o">
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1 class="o_row">
+                            <field name="polo_cliente" required="1"/>
+                            <field name="fase_id_bkp" invisible="1"/>
+                            <field name="fase_id" required="1" domain="[('polo_cliente','=',polo_cliente)]"/>
+                        </h1>
+                    </div>
+                    <field name="numero_pendencias" invisible="1"/>
+                    <group col="2" colspan="2">
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="origem_id" required="1"/>
+                            <field name="processo" attrs="{'required':[('polo_cliente','=', 'p')]}"/>
+                            <field name="tipo_processo" required="1"/>
+                            <field name="create_date" string="Data do Cadastro"/>
+                            <field name="pasta_cppro"/>
+                        </group>
+                        <group>
+                            <field name="parte_representada_ids" widget="many2many_tags"
+                                   domain="[('is_parte_representada','=',True)]" required="1"/>
+                            <field name="parte_contraria_ids" widget="many2many_tags"
+                                   domain="[('is_parte_contraria','=',True)]" required="1"/>
+                            <field name="parte_contraria_contumaz_ids" widget="many2many_tags"
+                                   domain="[('is_parte_contraria','=',True)]"/>
+                            <field name="escritorio_id"
+                                   domain="[('is_escritorio','=', True)]"
+                                   attrs="{'invisible':[('tem_advogado','=','n')]}"/>
+                            <field name="tem_advogado" required="1"/>
+                            <field name="advogado_adverso_ids" widget="many2many_tags" domain="[('is_advogado','=',True)]"
+                                   attrs="{'invisible':[('tem_advogado','=','n')], 'required':[('tem_advogado','=','s')]}"/>
+                            <field name="advogado_adverso_agressor_ids" widget="many2many_tags"
+                                   domain="[('is_advogado','=',True)]"
+                                   attrs="{'invisible':[('tem_advogado','=','n')]}"/>
+                            <field name="assuncao_defesa"/>
+                        </group>
+                        <group>
+                            <field name="valor_causa"/>
+                            <field name="valor_dano_moral"/>
+                            <field name="valor_dano_material"/>
+                        </group>
+                        <group>
+                            <field name="rito_id" required="1"/>
+                            <field name="natureza_id" required="1"/>
+                            <field name="tipo_acao_id" required="1"/>
+                        </group>
+                        <group>
+                            <field name="ordinal" required="1"/>
+                            <field name="vara_id" required="1"/>
+                            <field name="orgao_id" required="1"/>
+                            <field name="comarca_id" options="{'no_create' :True}"
+                                   domain="[('state_id','=',estado_id)]" required="1"/>
+                            <field name="estado_id" options="{'no_create' :True}" required="1"/>
+                        </group>
+                        <group>
+                            <field name="objeto_id" domain="[('grupo_id','=',grupo_id)]"/>
+                            <field name="assunto_id" domain="[('grupo_id','=',grupo_id)]"/>
+                            <field name="local_fato"/>
+                            <field name="data_fato"/>
+                        </group>
+                        <group attrs="{'invisible': [('polo_cliente', '!=', 'p')]}">
+                            <field name="parecer"/>
+                            <field name="relatorio_parecer" widget="many2one_binary"/>
+                        </group>
+                        <group attrs="{'invisible': [('polo_cliente', '!=', 'p')]}">
+                            <field name="analise_acordo"/>
+                            <field name="motivo_inaptidao" attrs="{'invisible': [('analise_acordo','!=','i')]}"/>
+                            <field name="valor_alcada" attrs="{'invisible': [('analise_acordo','!=','a')]}"/>
+                            <field name="obrigacao_alcada" attrs="{'invisible': [('analise_acordo','!=','a')]}"/>
+
+                        </group>
+                        <group>
+                            <field name="grupo_id" domain="[('is_grupo','=',True)]" required="1"/>
+                            <field name="projeto_id" required="1"/>
+                            <field name="credenciado_id" domain="[('is_credenciado','=',True)]"/>
+                            <field name="motivo_cadastro_id"/>
+                        </group>
+                        <group>
+                            <field name="data_cadastro_cliente"/>
+                            <field name="fase_cliente" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="contrato_id" context="{'default_dossie_id': active_id}" attrs="{'invisible': [('polo_cliente', '!=', 'a')]}"/>
+                            <field name="contrato_tipo_id" attrs="{'invisible': [('polo_cliente', '!=', 'a')]}"/>
+                        </group>
+                        <group>    
+                            <field name="contrato" attrs="{'invisible': [('polo_cliente', '!=', 'p')]}"/>
+                            <field name="carteira_id"/>
+                            <field name="risco" attrs="{'invisible': [('polo_cliente', '!=', 'p')]}"/>
+                            <field name="responsabilidade" attrs="{'invisible': [('polo_cliente', '!=', 'p')]}"/>
+                            <field name="cessionaria_id" domain="[('is_cessionaria','=',True)]" attrs="{'invisible': [('polo_cliente', '!=', 'p')]}"/>
+                        </group>
+                        <group attrs="{'invisible': [('polo_cliente', '!=', 'a')]}">
+                            <field name="data_citacao_efetivada"/>
+                            <field name="data_penhora_efetivada"/>
+                            <field name="relatorio_irrecuperabilidade" widget="many2one_binary"/>
+                        </group>
+                        <group>
+                            <field name="user_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Compromissos" name="tasks">
+                            <field name="task_ids">
+                                <tree>
+                                    <field name="task_type_id" string="Tipo"/>
+                                    <field name="stage_id" string="Estágio"/>
+                                    <field name="fase_tarefa_id"/>
+                                    <field name="create_date" string="Criação"/>
+                                    <field name="date_last_stage_update" string="Última Atualização"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Partes">
+                            <group>
+                                <field name="related_parte_representada_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="cnpj_cpf"/>
+                                    </tree>
+                                </field>
+                                <field name="parte_representada_count"/>
+                            </group>
+                            <group>
+                                <field name="related_parte_contraria_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="cnpj_cpf"/>
+                                        <field name="is_contumaz"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group>
+                                <field name="related_advogado_adverso_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="oab"/>
+                                        <field name="parent_id" string="Escritório"/>
+                                        <field name="is_agressor"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Decisões" name="decisoes">
+                            <field name="tem_acordo" invisible="1"/>
+                            <field name="tem_dispensa" invisible="1"/>
+                            <field name="recurso_representada" invisible="1"/>
+                            <field name="recurso_contraria" invisible="1"/>
+                            <notebook>
+                                <page string="Liminar" name="liminar">
+                                    <group col="2" colspan="2">
+                                        <group>
+                                            <field name="liminar_id" context="{'default_dossie_id':active_id}"/>
+                                            <field name="data_liminar"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="liminar_anexo_id" widget="many2one_binary"/>
+                                    </group>
+                                    <field name="liminar" nolabel="1"/>
+                                </page>
+                                <page string="Sentença" name="sentenca">
+                                    <group col="2" colspan="2">
+                                        <group>
+                                            <field name="sentenca_id" context="{'default_dossie_id':active_id}"/>
+                                            <field name="data_sentenca"/>
+                                            <field name="tipo_sentenca_id"/>
+                                        </group>
+                                        <group>
+                                            <field name="tipos_obrigacoes_ids_sentenca" widget="many2many_tags"/>
+                                            <field name="tem_multa_obrigacao_sentenca"/>
+                                            <field name="obrigacao_valor_multa_sentenca"/>
+                                        </group>
+                                        <group>
+                                            <field name="valor_condenacao_final_sentenca" readonly="1"/>
+                                            <field name="valor_honorarios_sentenca"/>
+                                            <field name="valor_juros_sentenca"/>
+                                            <field name="valor_atualizacao_monetaria_sentenca"/>
+                                        </group>
+                                        <group>
+                                            <field name="valor_condenacao_base_sentenca" readonly="1"/>
+                                            <field name="valor_dano_moral_sentenca"/>
+                                            <field name="valor_dano_material_sentenca"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="sentenca_anexo_id" widget="many2one_binary"/>
+                                    </group>
+                                    <field name="sentenca" nolabel="1"/>
+                                </page>
+                                <page string="Acordão" name="acordao">
+                                    <group col="2" colspan="2">
+                                        <group>
+                                            <field name="acordao_id" context="{'default_dossie_id':active_id}"/>
+                                            <field name="data_acordao"/>
+                                            <field name="tipo_acordao_id"/>
+                                            <field name="tipo_sentenca_modificada_id"/>
+                                        </group>
+                                        <group>
+                                            <field name="tipos_obrigacoes_ids_acordao" widget="many2many_tags"/>
+                                            <field name="tem_multa_obrigacao_acordao"/>
+                                            <field name="obrigacao_valor_multa_acordao"/>
+                                        </group>
+                                        <group>
+                                            <field name="valor_condenacao_final_acordao" readonly="1"/>
+                                            <field name="valor_honorarios_acordao"/>
+                                            <field name="valor_juros_acordao"/>
+                                            <field name="valor_atualizacao_monetaria_acordao"/>
+                                        </group>
+                                        <group>
+                                            <field name="valor_condenacao_base_acordao" readonly="1"/>
+                                            <field name="valor_dano_moral_acordao"/>
+                                            <field name="valor_dano_material_acordao"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="acordao_anexo_id" widget="many2one_binary"/>
+                                    </group>
+                                    <field name="acordao" nolabel="1"/>
+                                </page>
+                                <page string="Acordão Superior" name="acordao_superior">
+                                    <group col="2" colspan="2">
+                                        <group>
+                                            <field name="data_acordao_superior"/>
+                                            <field name="tipo_acordao_superior_id"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="acordao_superior_id" widget="many2one_binary"/>
+                                    </group>
+                                    <field name="acordao_superior" nolabel="1"/>
+                                </page>
+                                <page string="Acordão Supremo" name="acordao_supremo">
+                                    <group col="2" colspan="2">
+                                        <group>
+                                            <field name="data_acordao_supremo"/>
+                                            <field name="tipo_acordao_supremo_id"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="acordao_supremo_id" widget="many2one_binary"/>
+                                    </group>
+                                    <field name="acordao_supremo" nolabel="1"/>
+                                </page>
+                                <page string="Estudo de Decisões" name="juiz_grupo_relation">
+                                    <group col="1" colspan="2">
+                                        <field name="juiz_grupo_ids" nolabel="1">
+                                            <tree>
+                                                <field name="grupo_id"/>
+                                                <field name="juiz_id" invisible="1"/>
+                                                <field name="sentenca_total"/>
+                                                <field name="improcedencia_total"/>
+                                                <field name="improcedencia_porcentage"/>
+                                                <field name="procedencia_total"/>
+                                                <field name="procedencia_porcentage"/>
+                                                <field name="procedencia_danos_morais_media"/>
+                                                <field name="procedencia_danos_materiais_media"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </page>
+                        <page string="Valores" name="valor">
+                            <group col="2" colspan="2">
+                                <field name="dossie_pagamento_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="tipo_id"/>
+                                        <field name="valor" sum="Total"/>
+                                        <field name="data"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="tem_pagamento" invisible="1"/>
+                                    <field name="tem_garantia" invisible="1"/>
+                                    <field name="total_pagamentos"/>
+                                    <field name="total_custas"/>
+                                </group>
+                                <group>
+                                    <field name="total_honorarios"/>
+                                    <field name="total_dossie"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Inicial" name="inicial">
+                            <group>
+                                <field name="data_distribuicao"/>
+                                <field name="inicial_id" widget="many2one_binary"
+                                       context="{'default_res_model':'dossie.dossie','default_res_id':active_id,'default_dossie_document_type':'i'}"
+                                       domain="[('dossie_document_type','=','i')]"/>
+                                <field name="inicial"/>
+                            </group>
+                        </page>
+                        <page string="Citação" name="citacao" attrs="{'invisible': [('polo_cliente', '!=', 'p')]}">
+                            <group>
+                                <field name="data_citacao"/>
+                                <field name="citacao_id" widget="many2one_binary"
+                                       context="{'default_res_model':'dossie.dossie','default_res_id':active_id,'default_dossie_document_type':'c'}"
+                                       domain="[('dossie_document_type','=','c')]"/>
+                                <field name="citacao"/>
+                            </group>
+                        </page>
+                        <page string="Pedidos" name="pedidos" attrs="{'invisible': [('polo_cliente', '!=', 'p')]}">
+                            <group colspan="4" col="4" string="Pedidos">
+                                <field name="pedido_ids" nolabel="1">
+                                    <tree editable="top">
+                                        <field name="tipo_id"/>
+                                        <field name="valor"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Citações" name="citacoes" attrs="{'invisible': [('polo_cliente', '!=', 'a')]}">
+                            <group colspan="4" col="4" string="Citações">
+                                <field name="citacao_ids" nolabel="1">
+                                    <tree>
+                                        <field name="tipo_id"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Penhoras" name="penhoras" attrs="{'invisible': [('polo_cliente', '!=', 'a')]}">
+                            <group colspan="4" col="4" string="Penhoras">
+                                <field name="penhora_ids" nolabel="1">
+                                    <tree>
+                                        <field name="bem_ids"/>
+                                        <field name="state"/>
+                                        <field name="data"/>
+                                        <field name="valor"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Fases" name="fases">
+                            <group colspan="4" col="2">
+                                <field name="data_encerramento"/>
+                            </group>
+                            <group colspan="4" col="4" string="Histórico">
+                                <field name="fase_historico_ids" nolabel="1" domain="[('dossie_id', '=', id)]">
+                                    <tree editable="bottom">
+                                        <field name="data"/>
+                                        <field name="fase_id_bkp"/>
+                                        <field name="fase_id"/>
+                                        <field name="movimentacao_id"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group colspan="4" col="4" string="Incongruências">
+                                <field name="fase_historico_erro_ids" nolabel="1" domain="[('dossie_id', '=', id)]">
+                                    <tree editable="bottom">
+                                        <field name="data"/>
+                                        <field name="fase_id_bkp"/>
+                                        <field name="fase_id"/>
+                                        <field name="movimentacao_id"/>
+                                        <field name="erro"/>
+                                        <field name="resolvido"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Movimentações" name="movimentacoes">
+                            <group colspan="4" col="4" string="Histórico de Movimentações">
+                                <field name="movimentacao_historico_ids" nolabel="1">
+                                    <tree>
+                                        <field name="data"/>
+                                        <field name="tipo"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Histórico" name="dossies_history">
+                            <group colspan="4" col="2">
+                                <field name="analise_historico"/>
+                            </group>
+                            <group colspan="4" col="4" string="Histórico de Dossiês">
+                                <field name="dossie_historico_ids" nolabel="1">
+                                    <tree>
+                                        <field name="name"/> 
+                                        <field name="objeto_id"/> 
+                                        <field name="assunto_id"/> 
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="dossie_tree_view">
+        <field name="name">Dossiês</field>
+        <field name="model">dossie.dossie</field>
+        <field name="arch" type="xml">
+            <tree string="Dossiês">
+                <field name="name"/>
+                <field name="processo"/>
+                <field name="ordinal"/>
+                <field name="vara_id"/>
+                <field name="orgao_id"/>
+                <field name="comarca_id"/>
+                <field name="estado_id"/>
+                <field name="projeto_id"/>
+                <field name="fase_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="dossie_search_view">
+        <field name="name">Dossiês</field>
+        <field name="model">dossie.dossie</field>
+        <field name="arch" type="xml">
+            <search string="Dossiês">
+                <field name="name"/>
+                <field name="processo"/>
+                <field name="grupo_id"/>
+                <field name="parte_representada_ids"/>
+                <field name="parte_contraria_ids"/>
+                <field name="advogado_adverso_ids"/>
+                <field name="vara_id"/>
+                <field name="orgao_id"/>
+                <field name="comarca_id"/>
+                <field name="estado_id"/>
+                <field name="projeto_id"/>
+                <field name="objeto_id"/>
+                <field name="assunto_id"/>
+                <field name="state"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_dossie_dossie_pivot">
+        <field name="name">dossie.dossie.pivot</field>
+        <field name="model">dossie.dossie</field>
+        <field name="arch" type="xml"> 
+            <pivot string="Dossiês">
+            </pivot>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_dossie_dossie_graph">
+        <field name="name">dossie.dossie.graph</field>
+        <field name="model">dossie.dossie</field>
+        <field name="arch" type="xml">
+            <graph string="Dossiês">
+            </graph>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_dossie">
+        <field name="name">Dossiê</field>
+        <field name="res_model">dossie.dossie</field>
+        <field name="search_view_id" ref="dossie_search_view"/>
+        <field name="view_mode">tree,form,pivot,graph</field>
+    </record>
+
+    <menuitem name="Dossiês" id="dossie_main_menu" sequence="22"
+              web_icon="tko_mmp_project,static/description/icon.png"/>
+
+    <menuitem id="menu_dossie" parent="dossie_main_menu" name="Dossiês" sequence="10" action="action_dossie"/>
+
+    <menuitem id="menu_dossie_configuracoes" name="Configurações" parent="dossie_main_menu" sequence="100"/>
+
+    <!-- ########## COMPROMISSOS ########## -->
+
+    <record model="ir.actions.act_window" id="action_dossie_compromissos">
+        <field name="name">Compromissos</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">tree,form,calendar,pivot,graph</field>
+        <field name="domain">[('dossie_id', '!=', False)]</field>
+    </record>
+
+    <menuitem id="dossie_compromissos" parent="dossie_main_menu" name="Compromissos" sequence="20"
+              action="action_dossie_compromissos"/>
+
+    <!-- ########## AÇÕES ########## -->
+
+    <record model="ir.actions.act_window" id="action_dossie_acoes">
+        <field name="name">Ações</field>
+        <field name="res_model">project.task.action.line</field>
+        <field name="view_mode">tree,form,calendar,pivot,graph</field>
+        <field name="domain">[('dossie_id', '!=', False)]</field>
+    </record>
+
+    <menuitem id="dossie_acoes" parent="dossie_main_menu" name="Ações" sequence="30" action="action_dossie_acoes"/>
+
+    <!-- ########## CONTRATO ########## -->
+
+    <record model="ir.ui.view" id="dossie_contrato_form_view">
+        <field name="name">Contrato</field>
+        <field name="model">dossie.contrato</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="situacao" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1 class="o_row">
+                            <field name="dossie_id" context="{'default_dossie_id':active_id}"/>
+                        </h1>
+                    </div>
+                    <group col="2" colspan="2">
+                        <group>
+                            <field name="name"/>
+                            <field name="tipo_id"/>
+                            <field name="segmento_id"/>
+                            <field name="canal_contratacao"/>
+                            <field name="conta_id"/>
+                            <field name="agencia"/>
+                            <field name="modalidade"/>
+                            <field name="numero_parcelas"/>
+                        </group>
+                        <group>
+                            <field name="cliente_ids"
+                                domain="[('id','in', parte_contraria_ids and parte_contraria_ids[0][2])]"
+                                widget="many2many_tags"/>
+                            <field name="avalista_ids" 
+                                domain="[('id','in', parte_contraria_ids and parte_contraria_ids[0][2])]"
+                                widget="many2many_tags"/>
+                            <field name="parte_contraria_ids" invisible="1" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="valor_ca6"/>
+                            <field name="valor_nb"/>
+                            <field name="valor_juros"/>
+                            <field name="valor_atrasado"/>
+                            <field name="valor_em_ser"/>
+                            <field name="valor_contratado"/>
+                        </group>
+                        <group>
+                            <field name="data_inicial"/>
+                            <field name="data_atraso"/>
+                            <field name="data_vencimento"/>
+                            <field name="data_situacao"/>
+                        </group>
+                    </group>
+                    <group string="Garantias">
+                        <field name="garantia_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="tipo_id"/>
+                                <field name="bem_id"/>
+                                <field name="partner_id"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Parcelas">
+                        <field name="parcela_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="numero"/>
+                                <field name="valor"/>
+                                <field name="valor_em_ser"/>
+                                <field name="data_vencimento"/>
+                                <field name="valor_ca6"/>
+                                <field name="valor_pago"/>
+                                <field name="situacao"/>
+                                <field name="data_situacao"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ########## MOVIMENTAÇÃO ########## -->
+
+    <record model="ir.ui.view" id="dossie_movimentacao_form">
+        <field name="name">Movimentação</field>
+        <field name="model">dossie.movimentacao</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "Validado"}'/>
+                        </button>
+                        <button name="toggle_lido" type="object" class="oe_stat_button" icon="fa-check-square-o">
+                            <field name="lido" widget="boolean_button" options='{"terminology": "Lido"}'/>
+                        </button>
+
+                    </div>
+                    <div class="oe_title">
+                        <h1 class="o_row">
+                            <field name="tipo" readonly="1"/>
+                            <field name="resultado" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group col="2" colspan="2">
+                        <group>
+                            <field name="dossie_id" context="{'default_dossie_id':active_id}"/>
+                            <field name="data"/>
+                        </group>
+                        <group>
+                            <field name="polo_cliente"/>
+                            <field name="fase_id"/>
+                            <field name="grupo_id"/>
+                        </group>
+                        <group>
+                            <field name="tipo_movimentacao_id"/>
+                            <field name="task_id"/>
+                            <field name="action_line_id"/>
+                        </group>
+                        <group>
+                            <field name="incongruencia_id"/>
+                            <field name="erro"/>
+                            <field name="resolvido"/>
+                        </group>
+                        <group>
+                            <field name="tipo_prazo_id"/>
+                            <field name="tipo_transito_id"/>
+                            <field name="tipo_recurso_id"/>
+                        </group>
+                        <group>
+                            <field name="tipo_sentenca_id"/>
+                            <field name="tipo_acordao_id"/>
+                        </group>
+                        <group>
+                            <field name="tem_audiencia"/>
+                            <field name="tipo_audiencia_id" attrs="{'invisible': [('tem_audiencia', '!=', 's')]}"/>
+                            <field name="tem_pagamento"/>
+                            <field name="tipo_pagamento_id" attrs="{'invisible': [('tem_pagamento', '!=', 's')]}"/>
+                        </group>
+                        <group>
+                            <field name="tem_levantamento"/>
+                            <field name="tipo_levantamento_id"
+                                   attrs="{'invisible': [('tem_levantamento', '!=', 's')]}"/>
+                            <field name="tem_encerramento"/>
+                            <field name="tipo_encerramento_id"
+                                   attrs="{'invisible': [('tem_encerramento', '!=', 's')]}"/>
+                        </group>
+
+                        <field name="movimentacao" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="dossie_movimentacoes_tree">
+        <field name="name">Movimentações</field>
+        <field name="model">dossie.movimentacao</field>
+        <field name="arch" type="xml">
+            <tree string="Movimentações">
+                <field name="dossie_id"/>
+                <field name="data"/>
+                <field name="movimentacao"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_dossie_movimentacoes">
+        <field name="name">Movimentação</field>
+        <field name="res_model">dossie.movimentacao</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+    </record>
+
+    <menuitem id="dossie_movimentacoes" name="Movimentações" parent="dossie_main_menu"
+              action="action_dossie_movimentacoes" sequence="40"/>
+
+    <!-- ########## CITAÇÃO ########## -->
+
+    <record model="ir.ui.view" id="dossie_citacao_form">
+        <field name="name">Citações</field>
+        <field name="model">dossie.citacao</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1 class="o_row">
+                            <field name="dossie_id" context="{'default_dossie_id':active_id}"/>
+                        </h1>
+                    </div>
+                    <group col="2" colspan="2">
+                        <group>
+                            <field name="tipo_id"/>
+                            <field name="data"/>
+                        </group>
+                        <group>
+                            <field name="task_id"/>
+                        </group>
+                        <field name="parte_contraria_ids"
+                               domain="[('id','in', related_parte_contraria_ids and related_parte_contraria_ids[0][2])]"
+                               widget="many2many_tags" nolabel="1"/>
+                        <field name="related_parte_contraria_ids" widget="many2many_tags" invisible="1"/>
+                        <field name="resultado_parte_ids" nolabel="1">
+                            <tree>
+                                <field name="related_parte_contraria_ids" invisible="1"/>
+                                <field name="parte_contraria_id"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ########## PENHORA ########## -->
+
+    <record model="ir.ui.view" id="dossie_penhora_form">
+        <field name="name">Penhora</field>
+        <field name="model">dossie.penhora</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1 class="o_row">
+                            <field name="dossie_id" context="{'default_dossie_id':active_id}"/>
+                        </h1>
+                    </div>
+                    <group col="2" colspan="2">
+                        <group>
+                            <field name="data"/>
+                            <field name="valor"/>
+                        </group>
+                        <group>
+                            <field name="tipo_ids" widget="many2many_tags"/>
+                            <field name="task_id"/>
+                        </group>
+                        <field name="parte_contraria_ids"
+                               domain="[('id','in', related_parte_contraria_ids and related_parte_contraria_ids[0][2])]"
+                               widget="many2many_tags" nolabel="1"/>
+                        <field name="related_parte_contraria_ids" widget="many2many_tags" invisible="1"/>
+                        <field name="bem_ids" nolabel="1">
+                            <tree>
+                                <field name="name"/>
+                                <field name="partner_id"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="dossie_sentenca_form">
+        <field name="name">Sentença</field>
+        <field name="model">dossie.sentenca</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1 class="o_row">
+                            <field name="dossie_id"/>
+                        </h1>
+                    </div>
+                    <group col="2" colspan="2">
+                        <group>
+                            <field name="name"/>
+                            <field name="data"/>
+                            <field name="tipo_sentenca_id"/>
+                            <field name="tipo_condenacao"/>
+                        </group>
+                        <group>
+                            <field name="juiz_id"/>
+                            <field name="fundamento_id"/>
+                            <field name="tipo_materia_id"/>
+                        </group>
+                        <group>
+                            <field name="tipos_obrigacoes_ids" widget="many2many_tags"/>
+                            <field name="tem_multa_obrigacao"/>
+                            <field name="obrigacao_valor_multa"/>
+                            <field name="obrigacao"/>
+                        </group>
+                        <group>
+                            <field name="valor_condenacao_final" readonly="1"/>
+                            <field name="valor_honorarios"/>
+                            <field name="valor_juros"/>
+                            <field name="valor_atualizacao_monetaria"/>
+                            <field name="valor_condenacao_base" readonly="1"/>
+                            <field name="valor_dano_moral"/>
+                            <field name="valor_dano_material"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="anexo_id" widget="many2one_binary"
+                               context="{'default_res_model':'dossie.dossie','default_res_id':active_id,'default_dossie_document_type':'s'}"
+                               domain="[('dossie_document_type','=','s')]"/>
+                    </group>
+                    <field name="sentenca" nolabel="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="dossie_liminar_form">
+        <field name="name">Liminar</field>
+        <field name="model">dossie.liminar</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1 class="o_row">
+                            <field name="dossie_id"/>
+                        </h1>
+                    </div>
+                    <group col="2" colspan="2">
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="data"/>
+                        </group>
+                        <group>
+                            <field name="anexo_id" widget="many2one_binary"/>
+                        </group>
+                        <field name="liminar" nolabel="1" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="dossie_acordao_form">
+        <field name="name">Acordão</field>
+        <field name="model">dossie.acordao</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1 class="o_row">
+                            <field name="dossie_id"/>
+                        </h1>
+                    </div>
+                    <group col="2" colspan="2">
+                        <group>
+                            <field name="name"/>
+                            <field name="data"/>
+                            <field name="sentenca_id"/>
+                            <field name="tipo_sentenca_modificada_id"/>
+                        </group>
+                        <group>
+                            <field name="tipos_obrigacoes_ids" widget="many2many_tags"/>
+                            <field name="tem_multa_obrigacao"/>
+                            <field name="obrigacao_valor_multa"/>
+                            <field name="obrigacao"/>
+                        </group>
+                        <group>
+                            <field name="valor_condenacao_final" readonly="1"/>
+                            <field name="valor_honorarios"/>
+                            <field name="valor_juros"/>
+                            <field name="valor_atualizacao_monetaria"/>
+                            <field name="valor_condenacao_base" readonly="1"/>
+                            <field name="valor_dano_moral"/>
+                            <field name="valor_dano_material"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="anexo_id" widget="many2one_binary"
+                               context="{'default_res_model':'dossie.dossie','default_res_id':active_id,'default_dossie_document_type':'s'}"
+                               domain="[('dossie_document_type','=','s')]"/>
+                    </group>
+                    <field name="acordao" nolabel="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="juiz_grupo_relation_tree">
+        <field name="name">Estudo de Decisões</field>
+        <field name="model">juiz.grupo.relation</field>
+        <field name="arch" type="xml">
+            <tree string="Estudo de Decisões">
+                <field name="grupo_id"/>
+                <field name="juiz_id"/>
+                <field name="sentenca_total"/>
+                <field name="improcedencia_total"/>
+                <field name="improcedencia_porcentage"/>
+                <field name="procedencia_total"/>
+                <field name="procedencia_porcentage"/>
+                <field name="procedencia_danos_morais_media"/>
+                <field name="procedencia_danos_materiais_media"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="juiz_grupo_relation_form">
+        <field name="name">Estudo de Decisões</field>
+        <field name="model">juiz.grupo.relation</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group colspan="2" col="2">
+                        <group>
+                            <field name="grupo_id"/>
+                            <field name="juiz_id"/>
+                            <field name="sentenca_total"/>
+                        </group>
+                        <group>
+                            <field name="procedencia_danos_morais_media"/>
+                            <field name="procedencia_danos_materiais_media"/>
+                        </group>
+                        <group>
+                            <field name="improcedencia_total"/>
+                            <div><field name="improcedencia_porcentage"/>%</div>
+                        </group>
+                        <group>
+                            <field name="procedencia_total"/>
+                            <div><field name="procedencia_porcentage"/>%</div>
+                        </group>
+                        <field name="sentenca_ids" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="dossie_fase_cliente_config_tree_view">
+            <field name="name">dossie.fase.cliente.config.tree</field>
+            <field name="model">dossie.fase.cliente.config</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="dominio"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="dossie_fase_cliente_config_form_view">
+            <field name="name">dossie.fase.cliente.config.form</field>
+            <field name="model">dossie.fase.cliente.config</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="2">
+                        <field name="name" required="1"/>
+                        <field name="dominio" required="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_dossie_fase_cliente_config">
+            <field name="name">Dossie Fase Cliente Config</field>
+            <field name="res_model">dossie.fase.cliente.config</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="dossie_fase_cliente_config" name="Dossie Fase Cliente Config" parent="menu_dossie_configuracoes"
+                  action="action_dossie_fase_cliente_config" sequence="100"/>
+</odoo>

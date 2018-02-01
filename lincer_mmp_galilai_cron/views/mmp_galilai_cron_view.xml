@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record model="ir.cron" id="lincer_mmp_galilai_cron">
+           <field name="name">Lincer MMP Galilai Cron</field>
+           <field name="interval_number">1</field>
+           <field name="interval_type">days</field>
+           <field name="numbercall">-1</field>
+           <field name="model" eval="'galilai.test.model'"/>
+           <field name="function" eval="'_cron_lincer_mmp_galilai'"/>
+           <field name="args" eval="'(1000,8,)'"/>
+        </record>
+    </data>
+</odoo>

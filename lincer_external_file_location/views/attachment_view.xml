@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_attachment_form" model="ir.ui.view">
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="base.view_attachment_form" />
+        <field name="arch" type="xml">
+            <xpath expr="/form/*" position="before">
+                <header>
+                    <button name="run" states="pending,failed" string="Run" type="object" class="oe_highlight" invisible="1"/>
+                    <button name="set_done" states="pending,failed" string="Set to Done" type="object"/>
+                </header>
+            </xpath>
+            <field name="url" position="after">
+                <field name="sync_date"/>
+                <field name="state"/>
+                <field name="internal_hash"/>
+                <field name="external_hash"/>
+                <field name="file_type"/>
+                <field name="task_id" attrs="{'required': [('file_type', '=', 'export_external_location')]}"/>
+                <field name="location_id"/>
+            </field>
+            <group name="description_group">
+                <group name="state_message" string="Error" colspan="4">
+                    <field name="state_message" nolabel="1"/>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

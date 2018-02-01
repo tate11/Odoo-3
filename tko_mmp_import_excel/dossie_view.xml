@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_mmp_pre_dossie_form_inherited">
+            <field name="name">mmp.pre.dossie.form.inherited</field>
+            <field name="model">mmp.pre.dossie</field>
+            <field name="inherit_id" ref="tko_mmp_pre.view_mmp_pre_dossie_form"/>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="import_excel_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

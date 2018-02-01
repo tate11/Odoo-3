@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="contestacao_priority_config_form" model="ir.ui.view">
+            <field name="name">Contestacao Priority Config</field>
+            <field name="model">contestacao.priority.config</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="selection_field_id" required="1" options="{'no_create': True}" domain="[('ttype','=','selection'),('name','ilike','contestacao'),('model','=','project.task.default.line')]"/>
+                            <field name="priority" required="1"/>
+                            <field name="tipo_acao_id" required="1" options="{'no_create': True}"/>
+                            <field name="sim_text"/>
+                            <field name="nao_text"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="contestacao_priority_config_tree" model="ir.ui.view">
+            <field name="name">Contestacao Priority Config</field>
+            <field name="model">contestacao.priority.config</field>
+            <field name="arch" type="xml">
+                <tree string="Contestacao Priority Config">
+                    <field name="selection_field_id"/>
+                    <field name="priority"/>
+                    <field name="tipo_acao_id"/>
+                </tree>
+            </field>
+        </record>
+
+         <record id="contestacao_priority_config_action" model="ir.actions.act_window">
+                <field name="name">Contestacao Priority Config</field>
+                <field name="res_model">contestacao.priority.config</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+        </record>
+
+    <menuitem id="contestacao_priority_config_menu" action="contestacao_priority_config_action" sequence="60" parent="project.menu_project_config"/>
+
+    </data>
+</odoo>

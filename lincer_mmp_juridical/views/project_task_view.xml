@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="project_task_form">
+            <field name="name">project.task</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="tko_mmp_project.project_task_form"/>
+            <field name="arch" type="xml">
+                <page name="dynamic_fields" position="after">
+                    <page string="Petição">
+                        <group string="Contestação" attrs="{'invisible':[('default_line_id','=',False)]}">
+                            <field name="default_line_id"/>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+    </data>                    
+</odoo>

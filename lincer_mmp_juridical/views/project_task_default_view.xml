@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="project_task_default_form" model="ir.ui.view">
+            <field name="name">Default</field>
+            <field name="model">project.task.default</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="html_field_id" required="1" options="{'no_create': True}" domain="[('ttype','=','html'),('model','=','project.task.default.line')]"/>
+                            <field name="domain" required="1"/>
+                            <field name="html_text"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="project_task_default_tree" model="ir.ui.view">
+            <field name="name">Defaults</field>
+            <field name="model">project.task.default</field>
+            <field name="arch" type="xml">
+                <tree string="Defaults">
+                    <field name="html_field_id"/>
+                    <field name="domain"/>
+                </tree>
+            </field>
+        </record>
+
+         <record id="project_task_default_action" model="ir.actions.act_window">
+                <field name="name">Defaults</field>
+                <field name="res_model">project.task.default</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="project_task_default_line_form" model="ir.ui.view">
+            <field name="name">Default Line</field>
+            <field name="model">project.task.default.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group string="Task" attrs="{'invisible':[('task_id','=',False)]}">
+                            <field name="task_id" attrs="{'invisible':[('task_id','=',False)]}"/>
+                        </group>
+                        <group string="Contestação" attrs="{'invisible':[('contestacao_resumo_1','=',False)]}">
+                            <field name="contestacao_resumo_1" attrs="{'invisible':[('contestacao_resumo_1','=',False)]}"/>
+                            <field name="contestacao_resumo_2" attrs="{'invisible':[('contestacao_resumo_2','=',False)]}"/>
+                            <field name="contestacao_resumo_3" attrs="{'invisible':[('contestacao_resumo_3','=',False)]}"/>
+                            <field name="contestacao_tese" attrs="{'invisible':[('contestacao_tese','=',False)]}"/>
+                            <field name="contestacao_agressor" attrs="{'invisible':[('contestacao_agressor_show','!=',True)]}"/>
+                            <field name="contestacao_agressor_show" invisible="1"/>
+                            <field name="contestacao_agressor_text" attrs="{'invisible':[('contestacao_agressor','!=','s')]}"/>
+                            <field name="contestacao_incompetencia_jec" attrs="{'invisible':[('contestacao_incompetencia_jec_show','!=',True)]}"/>
+                            <field name="contestacao_incompetencia_jec_show" invisible="1"/>
+                            <field name="contestacao_incompetencia_jec_text" attrs="{'invisible':[('contestacao_incompetencia_jec','!=','s')]}"/>
+                            <field name="contestacao_cessao" attrs="{'invisible':[('contestacao_cessao_show','!=',True)]}"/>
+                            <field name="contestacao_cessao_show" invisible="1"/>
+                            <field name="contestacao_cessao_text" attrs="{'invisible':[('contestacao_cessao','!=','s')]}"/>
+                            <field name="contestacao_devolucao_dobro" attrs="{'invisible':[('contestacao_devolucao_dobro_show','!=',True)]}"/>
+                            <field name="contestacao_devolucao_dobro_show" invisible="1"/>
+                            <field name="contestacao_devolucao_dobro_text" attrs="{'invisible':[('contestacao_devolucao_dobro','!=','s')]}"/>
+                            <field name="contestacao_justica_gratuita" attrs="{'invisible':[('contestacao_justica_gratuita_show','!=',True)]}"/>
+                            <field name="contestacao_justica_gratuita_show" invisible="1"/>
+                            <field name="contestacao_justica_gratuita_text" attrs="{'invisible':[('contestacao_justica_gratuita','!=','s')]}"/>
+                        </group>
+                        <group string="Contestação Revisional" attrs="{'invisible':[('contestacao_reclamacao_previa_show','!=',True)]}">
+                            <field name="contestacao_reclamacao_previa" attrs="{'invisible':[('contestacao_reclamacao_previa_show','!=',True)]}"/>
+                            <field name="contestacao_reclamacao_previa_show" invisible="1"/>
+                            <field name="contestacao_reclamacao_previa_text" attrs="{'invisible':[('contestacao_reclamacao_previa','!=','s')]}"/>
+                            <field name="contestacao_reclamacao_previa_text_no" attrs="{'invisible':[('contestacao_reclamacao_previa','!=','n')]}"/>
+                            <field name="contestacao_consiganacao" attrs="{'invisible':[('contestacao_consiganacao_show','!=',True)]}"/>
+                            <field name="contestacao_consiganacao_show" invisible="1"/>
+                            <field name="contestacao_consiganacao_text" attrs="{'invisible':[('contestacao_consiganacao','!=','s')]}"/>
+                            <field name="contestacao_consiganacao_text_no" attrs="{'invisible':[('contestacao_consiganacao','!=','n')]}"/>
+                            <field name="contestacao_tac_tec_tc" attrs="{'invisible':[('contestacao_tac_tec_tc_show','!=',True)]}"/>
+                            <field name="contestacao_tac_tec_tc_show" invisible="1"/>
+                            <field name="contestacao_tac_tec_tc_text" attrs="{'invisible':[('contestacao_tac_tec_tc','!=','s')]}"/>
+                            <field name="contestacao_ta" attrs="{'invisible':[('contestacao_ta_show','!=',True)]}"/>
+                            <field name="contestacao_ta_show" invisible="1"/>
+                            <field name="contestacao_ta_text" attrs="{'invisible':[('contestacao_ta','!=','s')]}"/>
+                            <field name="contestacao_iof" attrs="{'invisible':[('contestacao_iof_show','!=',True)]}"/>
+                            <field name="contestacao_iof_show" invisible="1"/>
+                            <field name="contestacao_iof_text" attrs="{'invisible':[('contestacao_iof','!=','s')]}"/>
+                            <field name="contestacao_capitalizacao_mensal" attrs="{'invisible':[('contestacao_capitalizacao_mensal_show','!=',True)]}"/>
+                            <field name="contestacao_capitalizacao_mensal_show" invisible="1"/>
+                            <field name="contestacao_capitalizacao_mensal_text" attrs="{'invisible':[('contestacao_capitalizacao_mensal','!=','s')]}"/>
+                            <field name="contestacao_cobranca_juros" attrs="{'invisible':[('contestacao_cobranca_juros_show','!=',True)]}"/>
+                            <field name="contestacao_cobranca_juros_show" invisible="1"/>
+                            <field name="contestacao_cobranca_juros_text" attrs="{'invisible':[('contestacao_cobranca_juros','!=','s')]}"/>
+                            <field name="contestacao_comissao_permanencia" attrs="{'invisible':[('contestacao_comissao_permanencia_show','!=',True)]}"/>
+                            <field name="contestacao_comissao_permanencia_show" invisible="1"/>
+                            <field name="contestacao_comissao_permanencia_text" attrs="{'invisible':[('contestacao_comissao_permanencia','!=','s')]}"/>
+                            <field name="contestacao_posse" attrs="{'invisible':[('contestacao_posse_show','!=',True)]}"/>
+                            <field name="contestacao_posse_show" invisible="1"/>
+                            <field name="contestacao_posse_text" attrs="{'invisible':[('contestacao_posse','!=','s')]}"/>
+                            <field name="contestacao_restritivos" attrs="{'invisible':[('contestacao_restritivos_show','!=',True)]}"/>
+                            <field name="contestacao_restritivos_show" invisible="1"/>                                
+                            <field name="contestacao_restritivos_text" attrs="{'invisible':[('contestacao_restritivos','!=','s')]}"/>
+                        </group>
+                        <group string="Contestação Indenizatória" attrs="{'invisible':[('contestacao_ilegitimidade_show','!=',True)]}">
+                            <field name="contestacao_ilegitimidade" attrs="{'invisible':[('contestacao_ilegitimidade_show','!=',True)]}"/>
+                            <field name="contestacao_ilegitimidade_show" invisible="1"/>
+                            <field name="contestacao_ilegitimidade_text" attrs="{'invisible':[('contestacao_ilegitimidade','!=','s')]}"/>
+                            <field name="contestacao_conexao" attrs="{'invisible':[('contestacao_conexao_show','!=',True)]}"/>
+                            <field name="contestacao_conexao_show" invisible="1"/>
+                            <field name="contestacao_conexao_text" attrs="{'invisible':[('contestacao_conexao','!=','s')]}"/>
+                            <field name="contestacao_litispendencia" attrs="{'invisible':[('contestacao_litispendencia_show','!=',True)]}"/>
+                            <field name="contestacao_litispendencia_show" invisible="1"/>
+                            <field name="contestacao_litispendencia_text" attrs="{'invisible':[('contestacao_litispendencia','!=','s')]}"/>
+                            <field name="contestacao_multiplas_acoes" attrs="{'invisible':[('contestacao_multiplas_acoes_show','!=',True)]}"/>
+                            <field name="contestacao_multiplas_acoes_show" invisible="1"/>
+                            <field name="contestacao_multiplas_acoes_text" attrs="{'invisible':[('contestacao_multiplas_acoes','!=','s')]}"/>
+                            <field name="contestacao_sumula_385" attrs="{'invisible':[('contestacao_sumula_385_show','!=',True)]}"/>
+                            <field name="contestacao_sumula_385_show" invisible="1"/>
+                            <field name="contestacao_sumula_385_text" attrs="{'invisible':[('contestacao_sumula_385','!=','s')]}"/>
+                            <field name="contestacao_sumula_385_text_no" attrs="{'invisible':[('contestacao_sumula_385','!=','n')]}"/>
+                            <field name="contestacao_sumula_479" attrs="{'invisible':[('contestacao_sumula_479_show','!=',True)]}"/>
+                            <field name="contestacao_sumula_479_show" invisible="1"/>
+                            <field name="contestacao_sumula_479_text" attrs="{'invisible':[('contestacao_sumula_479','!=','s')]}"/>
+                            <field name="contestacao_reclamacao_atendida" attrs="{'invisible':[('contestacao_reclamacao_atendida_show','!=',True)]}"/>
+                            <field name="contestacao_reclamacao_atendida_show" invisible="1"/>
+                            <field name="contestacao_reclamacao_atendida_text" attrs="{'invisible':[('contestacao_reclamacao_atendida','!=','s')]}"/>
+                            <field name="contestacao_reclamacao_atendida_text_no" attrs="{'invisible':[('contestacao_reclamacao_atendida','!=','n')]}"/>
+                            <field name="contestacao_aderencia_parecer" attrs="{'invisible':[('contestacao_aderencia_parecer_show','!=',True)]}"/>
+                            <field name="contestacao_aderencia_parecer_show" invisible="1"/>
+                            <field name="contestacao_aderencia_parecer_text" attrs="{'invisible':[('contestacao_aderencia_parecer','!=','s')]}"/>
+                            <field name="contestacao_onus" attrs="{'invisible':[('contestacao_onus_show','!=',True)]}"/>
+                            <field name="contestacao_onus_show" invisible="1"/>
+                            <field name="contestacao_onus_text" attrs="{'invisible':[('contestacao_onus','!=','s')]}"/>
+                            <field name="contestacao_exercicio_regular" attrs="{'invisible':[('contestacao_exercicio_regular_show','!=',True)]}"/>
+                            <field name="contestacao_exercicio_regular_show" invisible="1"/>
+                            <field name="contestacao_exercicio_regular_text" attrs="{'invisible':[('contestacao_exercicio_regular','!=','s')]}"/>
+                            <field name="contestacao_pacta_sunt_servanda" attrs="{'invisible':[('contestacao_pacta_sunt_servanda_show','!=',True)]}"/>
+                            <field name="contestacao_pacta_sunt_servanda_show" invisible="1"/>
+                            <field name="contestacao_pacta_sunt_servanda_text" attrs="{'invisible':[('contestacao_pacta_sunt_servanda','!=','s')]}"/>
+                            <field name="contestacao_mero_agente" attrs="{'invisible':[('contestacao_mero_agente_show','!=',True)]}"/>
+                            <field name="contestacao_mero_agente_show" invisible="1"/>
+                            <field name="contestacao_mero_agente_text" attrs="{'invisible':[('contestacao_mero_agente','!=','s')]}"/>
+                            <field name="contestacao_falta_prova" attrs="{'invisible':[('contestacao_falta_prova_show','!=',True)]}"/>
+                            <field name="contestacao_falta_prova_show" invisible="1"/>
+                            <field name="contestacao_falta_prova_text" attrs="{'invisible':[('contestacao_falta_prova','!=','s')]}"/>
+                            <field name="contestacao_previsao_contratual" attrs="{'invisible':[('contestacao_previsao_contratual_show','!=',True)]}"/>
+                            <field name="contestacao_previsao_contratual_show" invisible="1"/>
+                            <field name="contestacao_previsao_contratual_text" attrs="{'invisible':[('contestacao_previsao_contratual','!=','s')]}"/>
+                            <field name="contestacao_guarda_informacoes" attrs="{'invisible':[('contestacao_guarda_informacoes_show','!=',True)]}"/>
+                            <field name="contestacao_guarda_informacoes_show" invisible="1"/>
+                            <field name="contestacao_guarda_informacoes_text" attrs="{'invisible':[('contestacao_guarda_informacoes','!=','s')]}"/>
+                            <field name="contestacao_fato_terceiro" attrs="{'invisible':[('contestacao_fato_terceiro_show','!=',True)]}"/>
+                            <field name="contestacao_fato_terceiro_show" invisible="1"/>
+                            <field name="contestacao_fato_terceiro_text" attrs="{'invisible':[('contestacao_fato_terceiro','!=','s')]}"/>
+                            <field name="contestacao_inversao_onus_prova" attrs="{'invisible':[('contestacao_inversao_onus_prova_show','!=',True)]}"/>
+                            <field name="contestacao_inversao_onus_prova_show" invisible="1"/>
+                            <field name="contestacao_inversao_onus_prova_text" attrs="{'invisible':[('contestacao_inversao_onus_prova','!=','s')]}"/>
+                            <field name="contestacao_danos_materias" attrs="{'invisible':[('contestacao_danos_materias_show','!=',True)]}"/>
+                            <field name="contestacao_danos_materias_show" invisible="1"/>
+                            <field name="contestacao_danos_materias_text" attrs="{'invisible':[('contestacao_danos_materias','!=','s')]}"/>
+                            <field name="contestacao_mero_aborrecimento" attrs="{'invisible':[('contestacao_mero_aborrecimento_show','!=',True)]}"/>
+                            <field name="contestacao_mero_aborrecimento_show" invisible="1"/>
+                            <field name="contestacao_mero_aborrecimento_text" attrs="{'invisible':[('contestacao_mero_aborrecimento','!=','s')]}"/>
+                            <field name="contestacao_litigancia_ma_fe" attrs="{'invisible':[('contestacao_litigancia_ma_fe_show','!=',True)]}"/>
+                            <field name="contestacao_litigancia_ma_fe_show" invisible="1"/>
+                            <field name="contestacao_litigancia_ma_fe_text" attrs="{'invisible':[('contestacao_litigancia_ma_fe','!=','s')]}"/>
+                            <field name="contestacao_dano_moral" attrs="{'invisible':[('contestacao_dano_moral_show','!=',True)]}"/>
+                            <field name="contestacao_dano_moral_show" invisible="1"/>
+                            <field name="contestacao_dano_moral_text" attrs="{'invisible':[('contestacao_dano_moral','!=','s')]}"/>
+                            <field name="contestacao_dano_moral_pj" attrs="{'invisible':[('contestacao_dano_moral_pj_show','!=',True)]}"/>
+                            <field name="contestacao_dano_moral_pj_show" invisible="1"/>
+                            <field name="contestacao_dano_moral_pj_text" attrs="{'invisible':[('contestacao_dano_moral_pj','!=','s')]}"/>
+                        </group>
+                        <group string="Recurso" attrs="{'invisible':[('recurso_juntada_documentos_show','!=',True)]}">
+                            <field name="recurso_juntada_documentos" attrs="{'invisible':[('recurso_juntada_documentos_show','!=',True)]}"/>
+                            <field name="recurso_juntada_documentos_show" invisible="1"/>
+                            <field name="recurso_juntada_documentos_text" attrs="{'invisible':[('recurso_juntada_documentos','!=','s')]}"/>
+                            <field name="recurso_documentos_juntados" attrs="{'invisible':[('recurso_documentos_juntados_show','!=',True)]}"/>
+                            <field name="recurso_documentos_juntados_show" invisible="1"/>
+                            <field name="recurso_documentos_juntados_text" attrs="{'invisible':[('recurso_documentos_juntados','!=','s')]}"/>
+                            <field name="recurso_negativacao_preexistente" attrs="{'invisible':[('recurso_negativacao_preexistente_show','!=',True)]}"/>
+                            <field name="recurso_negativacao_preexistente_show" invisible="1"/>
+                            <field name="recurso_negativacao_preexistente_text" attrs="{'invisible':[('recurso_negativacao_preexistente','!=','s')]}"/>
+                            <field name="recurso_danos_morais" attrs="{'invisible':[('recurso_danos_morais_show','!=',True)]}"/>
+                            <field name="recurso_danos_morais_show" invisible="1"/>
+                            <field name="recurso_danos_morais_text" attrs="{'invisible':[('recurso_danos_morais','!=','s')]}"/>
+                            <field name="recurso_danos_materiais" attrs="{'invisible':[('recurso_danos_materiais_show','!=',True)]}"/>
+                            <field name="recurso_danos_materiais_show" invisible="1"/>
+                            <field name="recurso_danos_materiais_text" attrs="{'invisible':[('recurso_danos_materiais','!=','s')]}"/>
+                        </group>
+                        <group string="Prazo" attrs="{'invisible':[('prazo_corpo_show','!=',True)]}">
+                            <field name="prazo_corpo" attrs="{'invisible':[('prazo_corpo_show','!=',True)]}"/>
+                            <field name="prazo_corpo_show" invisible="1"/>
+                        </group>
+                        <group string="Inicial" attrs="{'invisible':[('inicial_corpo_show','!=',True)]}">
+                            <field name="inicial_corpo" attrs="{'invisible':[('inicial_corpo_show','!=',True)]}"/>
+                            <field name="inicial_corpo_show" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+            </record>
+
+        <record id="project_task_default_line_tree" model="ir.ui.view">
+            <field name="name">Default Lines</field>
+            <field name="model">project.task.default.line</field>
+            <field name="arch" type="xml">
+                <tree string="Default Lines">
+                    <field name="task_id"/>
+                    <field name="contestacao_resumo_1"/>
+                    <field name="contestacao_resumo_2"/>
+                    <field name="contestacao_resumo_3"/>
+                </tree>
+            </field>
+        </record>
+        
+    <menuitem id="project_task_default_menu" action="project_task_default_action" sequence="70" parent="project.menu_project_config"/>
+    </data>
+</odoo>

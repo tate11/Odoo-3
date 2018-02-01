@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">Parceiros</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="company_type" position="after">
+                <div>
+                    <label for="is_grupo" attrs="{'invisible': [('is_company','=',False)]}"/>
+                    <field name="is_grupo" attrs="{'invisible': [('is_company','=',False)]}"/>
+                    <label for="is_credenciado" attrs="{'invisible': [('is_company','=',False)]}"/>
+                    <field name="is_credenciado" attrs="{'invisible': [('is_company','=',False)]}"/>
+                    <label for="is_parte_representada"/>
+                    <field name="is_parte_representada"/>
+                    <label for="is_parte_contraria"/>
+                    <field name="is_parte_contraria"/>
+                    <label for="is_contumaz" attrs="{'invisible': [('is_parte_contraria','=',False)]}"/>
+                    <field name="is_contumaz" attrs="{'invisible': [('is_parte_contraria','=',False)]}"/>
+                    <label for="is_escritorio" attrs="{'invisible': [('is_company','=',False)]}"/>
+                    <field name="is_escritorio" attrs="{'invisible': [('is_company','=',False)]}"/>
+                    <label for="is_advogado" attrs="{'invisible': [('is_company','=',True)]}"/>
+                    <field name="is_advogado" attrs="{'invisible': [('is_company','=',True)]}"/>
+                    <label for="is_agressor" attrs="{'invisible': [('is_advogado','=',False)]}"/>
+                    <field name="is_agressor" attrs="{'invisible': [('is_advogado','=',False)]}"/>
+                    <label for="is_juiz" attrs="{'invisible': [('is_company','!=',False)]}"/>
+                    <field name="is_juiz" attrs="{'invisible': [('is_company','!=',False)]}"/>
+                    <label for="is_correspondente" />
+                    <field name="is_correspondente"/>
+                    <label for="is_cessionaria" attrs="{'invisible': [('is_company','=',False)]}"/>
+                    <field name="is_cessionaria" attrs="{'invisible': [('is_company','=',False)]}"/>
+                </div>
+            </field>
+            <field name="cnpj_cpf" position="after">
+                <field name="oab" attrs="{'invisible': [('is_advogado','=',False)]}" placeholder="OAB"/>
+            </field>
+            <field name="category_id" postion="after">
+                <field name="segmento"/>
+            </field>
+            <xpath expr="//notebook[last()]" position="inside">
+                <page string="Área de Atuação" attrs="{'invisible' : [('is_correspondente','=',False)]}">
+                    <group>
+                        <field name="estado_ids" widget="many2many_tags"/>
+                        <field name="comarca_ids" widget="many2many_tags" context="{'estado_ids':estado_ids}"/>
+                        <field name="valid_comarca_ids" widget="many2many_tags" invisible="1"/>
+                    </group>
+                </page>
+                <page string="Histórico" name="dossie_history">
+                    <field name="historico_ids" nolabel="1"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

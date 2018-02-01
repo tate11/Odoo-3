@@ -1,0 +1,12 @@
+<odoo>
+    <record model="ir.ui.view" id="view_attachment_form_inherit">
+        <field name="name">ir.attachment</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="base.view_attachment_form"/>
+        <field name="arch" type="xml">
+            <field name="type" position="after">
+                <field name="dossie_document_type"/>
+            </field>
+        </field>
+    </record>
+</odoo>

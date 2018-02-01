@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="inherited_l10n_br_view_partner_form">
+            <field name="name">inherited.l10n_br.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="supplier" position="after">
+                    <field name="is_autor"/>
+                    <field name="is_contato"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_res_partner_filter_inherited" model="ir.ui.view">
+            <field name="name">res.partner.select.inherited</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <filter name="supplier" position="after">
+                    <filter string="É Autor" name="autor" domain="[('is_autor','=',1)]" help="É Autor"/>
+                    <filter string="É Contato" name="contato" domain="[('is_contato','=',1)]" help="É Contato"/>
+                </filter>
+            </field>
+        </record>
+
+    </data>
+</openerp>

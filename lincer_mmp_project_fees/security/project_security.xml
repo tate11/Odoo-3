@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="group_dossie_honorario" model="res.groups">
+            <field name="name">Ver Honorários no Dossiê</field>
+        </record>
+    </data>
+</odoo>

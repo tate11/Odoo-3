@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- © 2017 Ballotnet Solutions Ltd 
+        # @ 2017 Tosin Komolafe @ Ballotnet
+        @author Tosin Komolafe <komolafetosin@gmail.com>
+         License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+    <record id="view_task_form" model="ir.ui.view">
+        <field name="model">external.file.task</field>
+        <field name="arch" type="xml">
+            <form name="Tasks">
+                <header>
+                    <button name="run_import" type="object" string="Run"
+                            attrs="{'invisible': [('method_type', '!=', 'import')]}"/>
+                    <button name="run_export" type="object" string="Run"
+                            attrs="{'invisible': [('method_type', '!=', 'export')]}"/>
+                </header>
+                <sheet>
+                    <field name="method_type" invisible="1"/>
+                    <group col="4">
+                        <div class="oe_title" style="width: 390px;" colspan="4">
+                            <label class="oe_edit_only" for="name" name="Name"/>
+                            <h1>
+                                <field name="name" class="oe_inline"/>
+                            </h1>
+                        </div>
+                        <field name="method_type" colspan="2"/>
+                        <span colspan="2"/>
+                        <field name="filename" colspan="4"
+                               attrs="{'invisible':[('method_type','!=','import')], 'required':[('method_type', '=', 'import')]}"/>
+                        <field name="filepath" colspan="4"/>
+                        <field name="company_id" colspan="4"/>
+
+                        <field name="after_import" attrs="{'invisible':[('method_type','!=','import')]}"/>
+                            <field name="move_path"
+                                   attrs="{'invisible':['|', '&amp;',
+                                ('after_import','!=','move'),
+                                ('after_import','!=','move_rename'),
+                                ('method_type','!=','import')]}"/>
+                            <field name="new_name"
+                                   attrs="{'invisible': ['|', '&amp;',
+                                ('after_import','!=','rename'),
+                                ('after_import','!=','move_rename'),
+                                ('method_type','!=','import')]}"/>
+                        <field name="md5_check"
+                               attrs="{'invisible':
+                                [('method_type','!=','import')]}"/>
+                        <field name="active"/>
+                    </group>
+                    <group name="Data importation setting">
+                        <field name="file_type" attrs="{'invisible':[('method_type','!=','import')]}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_task_tree" model="ir.ui.view">
+        <field name="model">external.file.task</field>
+        <field name="arch" type="xml">
+            <tree name="Tasks">
+                <field name="name" select="1"/>
+                <field name="method_type"/>
+                <field name="filename"/>
+                <field name="filepath"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--record id="action_task" model="ir.actions.act_window">
+        <field name="name">External File Task</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">external.file.task</field>
+        <field name="view_type">form</field>
+        <field name="view_id" eval="False"/>
+    </record>
+
+    <menuitem id="menu_ir_task"
+              parent="base.menu_automation"
+              sequence="20"
+              action="action_task"/-->
+</odoo>

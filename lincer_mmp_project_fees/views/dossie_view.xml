@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<odoo>
+    <record model="ir.ui.view" id="dossie_form_view">
+        <field name="name">Dossiê</field>
+        <field name="model">dossie.dossie</field>
+        <!--        <field name="groups_id" eval="[(4,ref('group_dossie_honorario'))]"/> -->
+        <field name="inherit_id" ref="tko_mmp_project.dossie_form_view"/>
+        <field name="arch" type="xml">
+            <page name="valor" position="after">
+                <page name="honorarios" string="Honorários">
+                    <group string="Honorários">
+                        <field name="honorario_ids" nolabel="1">
+                            <tree>
+                                <field name="name"/>
+                                <field name="tipo_id"/>
+                                <field name="valor"/>
+                                <field name="estado"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="dossie_honorario_form_view">
+        <field name="name">Honorário</field>
+        <field name="model">dossie.honorario</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="estado" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group col="2" colspan="2">
+                        <group>
+                            <field name="name"/>
+                            <field name="dossie_id"/>
+                            <field name="tipo_id"/>
+                        </group>
+                        <group>
+                            <field name="valor"/>
+                            <field name="honorario_lote_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="dossie_honorario_tipo_form_view">
+        <field name="name">Tipo de Honorário</field>
+        <field name="model">dossie.honorario.tipo</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <h2>
+                            <field name="name" placeholder="Tipo de Honorário"/>
+                        </h2>
+                    </group>
+                    <group col="2" colspan="2">
+                        <group>
+                            <field name="valor_fixo"/>
+                            <!-- <field name="valor_variavel"/> -->
+                        </group>
+
+                        <group>
+                            <field name="codigo_python" widget="ace"/>
+                        </group>
+                        <field name="domain"/>
+                        <!-- <group>
+                            <field name="valor_total"/>
+                        </group> -->
+                    </group>
+                        
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="dossie_honorario_tree_view">
+        <field name="name">Honorários</field>
+        <field name="model">dossie.honorario</field>
+        <field name="arch" type="xml">
+            <tree string="Dossiês">
+                <field name="name"/>
+                <field name="dossie_id"/>
+                <field name="valor"/>
+                <field name="honorario_lote_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_dossie_honorario">
+        <field name="name">Honorário</field>
+        <field name="res_model">dossie.honorario</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_dossie_honorario_tipo">
+        <field name="name">Tipo de Honorário</field>
+        <field name="res_model">dossie.honorario.tipo</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+    </record>
+
+
+    <menuitem id="menu_dossie_honorarios" action="action_dossie_honorario" name="Honorários"
+              parent="tko_mmp_project.dossie_main_menu"
+              sequence="80"/>
+</odoo>

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="import_excel_tree_view">
+        <field name="name">import.dossie.excel.tree</field>
+        <field name="model">import.dossie.excel</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Arquivos" colors="grey: state in ('new');
+                                                            red: state in ('error')">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="date"/>
+                <field name="num_lines" sum="Total"/>
+                <field name="imported_lines" sum="Total"/>
+                <field name="imported_lines_error" sum="Total"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="import_excel_form_view">
+        <field name="name">import.dossie.excel.form</field>
+        <field name="model">import.dossie.excel</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Import File">
+                <header>
+                    <button name="load_spreadsheet"
+                            string="Carregar"
+                            class="oe_highlight"
+                            states="new"
+                            type="object"/>
+                    <button name="import_spreadsheet"
+                            string="Importar"
+                            class="oe_highlight"
+                            states="loaded,error"
+                            type="object"/>
+                    <button name="reset_import"
+                            string="Reset"
+                            class="oe_highlight"
+                            states="loaded,imported,error"
+                            type="object"/>
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="new,loaded,imported"
+                           statusbar_colors='{"error":"red","send_minutas":"blue"}'/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <separator string="IMPORTAÇÃO COM ERROS"
+                                   style="color: red;"
+                                   attrs="{'invisible':[('imported_lines_error','=',0)]}"/>
+                    </div>
+                    <group col="4" colspan="4">
+                        <field style="font_size: 0px;" name="file" filename="name"/>
+                        <newline/>
+                        <field name="name" colspan="4"/>
+                        <field name="date"/>
+                        <field name="num_lines"/>
+                        <field name="imported_lines"/>
+                        <newline/>
+                        <field name="imported_lines_error"/>
+                        <field name="limit"/>
+                    </group>
+                    <notebook>
+                        <page string="Linhas">
+                            <field name="import_line_ids" colspan="4" nolabel="1">
+                                <tree string="Linhas"
+                                      create="false"
+                                      delete="false"
+                                      colors="red: state == 'error';
+                                                  gray: state == 'imported';">
+                                    <field name="num_line"/>
+                                    <field name="state"/>
+                                    <field name="importation_error"/>
+                                    <field name="importation_date"/>
+                                </tree>
+                                <form string="Linhas">
+                                    <h5>
+                                        <field name="importation_error"/>
+                                    </h5>
+                                    <group colspan="4" col="4">
+                                        <field name="dossie_id"/>
+                                        <field name="dossie"/>
+                                        <field name="processo"/>
+                                        <field name="dossie_state"/>
+                                        <field name="polo_cliente"/>
+                                        <field name="fase"/>
+                                        <field name="origem"/>
+                                        <field name="tipo_processo"/>
+                                        <field name="groupo"/>
+                                        <field name="escritorio"/>
+                                        <field name="escritorio_razao_social"/>
+                                        <field name="escritorio_cnpj_cpf"/>
+                                        <field name="escritorio_phone"/>
+                                        <field name="escritorio_email"/>
+                                        <field name="escritorio_is_escritorio"/>
+                                        <field name="escritorio_is_company"/>
+                                        <field name="escritorio_street"/>
+                                        <field name="escritorio_number"/>
+                                        <field name="escritorio_street2"/>
+                                        <field name="escritorio_district"/>
+                                        <field name="escritorio_city"/>
+                                        <field name="escritorio_state"/>
+                                        <field name="escritorio_country"/>
+                                        <field name="credenciado"/>
+                                        <field name="credenciado_razao_social"/>
+                                        <field name="credenciado_cnpj_cpf"/>
+                                        <field name="credenciado_phone"/>
+                                        <field name="credenciado_email"/>
+                                        <field name="credenciado_is_credenciado"/>
+                                        <field name="credenciado_is_company"/>
+                                        <field name="assuncao_defesa"/>
+                                        <field name="valor_causa"/>
+                                        <field name="valor_dano_moral"/>
+                                        <field name="valor_dano_material"/>
+                                        <field name="data_distribuicao"/>
+                                        <field name="rito"/>
+                                        <field name="ordinal"/>
+                                        <field name="vara"/>
+                                        <field name="orgao"/>
+                                        <field name="comarca"/>
+                                        <field name="estado"/>
+                                        <field name="natureza"/>
+                                        <field name="tipo_acao"/>
+                                        <field name="projeto"/>
+                                        <field name="objeto"/>
+                                        <field name="assunto"/>
+                                        <field name="local_fato"/>
+                                        <field name="data_fato"/>
+                                        <field name="data_audiencia_inicial"/>
+                                        <field name="parecer"/>
+                                        <field name="subsidio"/>
+                                        <field name="analise_acordo"/>
+                                        <field name="motivo_inaptidao"/>
+                                        <field name="valor_alcada"/>
+                                        <field name="contrato"/>
+                                        <field name="carteira"/>
+                                        <field name="responsabilidade"/>
+                                        <field name="risco"/>
+                                        <field name="obrigacao"/>
+                                        <field name="liminar"/>
+                                        <field name="tem_advogado"/>
+                                        <field name="grupo"/>
+                                    </group>
+                                    <notebook>
+                                        <page string="Parte Representada" name="parte_representada">
+                                            <field name="parte_representada_ids" nolabel="1">
+                                                <tree>
+
+                                                    <field name="name"/>
+                                                    <field name="cnpj_cpf"/>
+                                                    <field name="phone"/>
+                                                    <field name="mobile"/>
+                                                    <field name="email"/>
+                                                    <field name="street"/>
+                                                    <field name="number"/>
+                                                    <field name="street2"/>
+                                                    <field name="city"/>
+                                                    <field name="state"/>
+                                                    <field name="country"/>
+                                                    <field name="partner_id"/>
+                                                </tree>
+                                            </field>
+                                        </page>
+                                        <page string="Parte Contrária" name="parte_contraria">
+                                            <field name="parte_contraria_ids" nolabel="1">
+                                                <tree>
+
+                                                    <field name="name"/>
+                                                    <field name="cnpj_cpf"/>
+                                                    <field name="phone"/>
+                                                    <field name="email"/>
+                                                    <field name="street"/>
+                                                    <field name="number"/>
+                                                    <field name="street2"/>
+                                                    <field name="city"/>
+                                                    <field name="state"/>
+                                                    <field name="country"/>
+                                                    <field name="partner_id"/>
+                                                </tree>
+                                            </field>
+                                        </page>
+                                        <page string="Advogado Adverso" name="advogado">
+                                            <field name="advogado_adverso_ids" nolabel="1">
+                                                <tree>
+
+                                                    <field name="name"/>
+                                                    <field name="oab"/>
+                                                    <field name="cnpj_cpf"/>
+                                                    <field name="email"/>
+                                                    <field name="phone"/>
+                                                    <field name="mobile"/>
+                                                    <field name="partner_id"/>
+                                                </tree>
+                                            </field>
+                                        </page>
+                                    </notebook>
+                                </form>
+                            </field>
+                        </page>
+                        <page name="create_fields" string="Configuração">
+                            <group>
+                                <field name="create_escritorio"/>
+                                <field name="create_credenciado"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="import_excel_line_tree_view">
+        <field name="name">import.dossie.excel.line.tree</field>
+        <field name="model">import.dossie.excel.line</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Linhas"
+                  create="false"
+                  delete="false"
+                  colors="red: state == 'error';
+                              gray: state == 'imported';">
+                <field name="num_line"/>
+                <field name="state"/>
+                <field name="importation_error"/>
+                <field name="importation_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_import_dossie_excel">
+        <field name="name">Import</field>
+        <field name="res_model">import.dossie.excel</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_group_by_campanha_id': 1}</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_import_dossie_excel_line">
+        <field name="name">Linhas</field>
+        <field name="res_model">import.dossie.excel.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_error': 1}</field>
+    </record>
+    <menuitem name="Importação" id="import_dossie_excel_main_menu" sequence="90"
+              parent="dossie_main_menu"/>
+    <menuitem name="Importações" id="import_dossie_excel_menu"
+              action="action_import_dossie_excel" parent="import_dossie_excel_main_menu" sequence="10"/>
+    <menuitem name="Linhas de Importação" id="import_excel_line_menu" parent="import_dossie_excel_main_menu"
+              action="action_import_dossie_excel_line" sequence="20"/>
+
+</odoo>

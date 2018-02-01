@@ -1,0 +1,568 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="task_type_form_view_ineherit" model="ir.ui.view">
+            <field name="model">task.type</field>
+            <field name="inherit_id" ref="tko_project_task_type.task_type_form_view"/>
+            <field name="arch" type="xml">
+                <field name="color" position="after">
+                    <separator string="Fields"/>
+                    <field name="field_ids" colspan="4" nolabel="1" options="{'no_create':True}"
+                           widget="many2many_tags"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- HEADER DYNAMIC FIELDS -->
+
+        <record model="ir.ui.view" id="project_task_form_header">
+            <field name="name">project.task</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="tko_project_task_type.view_task_form_with_pad"/>
+            <field name="arch" type="xml">
+                <field name="task_type_id" position="after">
+                    <field name="tipo_prazo_id" attrs="{'invisible': [('tipo_prazo_id_show','!=',True)]}"/>
+                    <field name="tipo_prazo_id_show" invisible="1"/>
+                    <field name="tipo_transito_id" attrs="{'invisible': [('tipo_transito_id_show','!=',True)]}"/>
+                    <field name="tipo_transito_id_show" invisible="1"/>
+                    <field name="tipo_recurso_id" attrs="{'invisible': [('tipo_recurso_id_show','!=',True)]}"/>
+                    <field name="tipo_recurso_id_show" invisible="1"/>
+                    <field name="tipo_encerramento_id" attrs="{'invisible': [('tipo_encerramento_id_show','!=',True)]}"/>
+                    <field name="tipo_encerramento_id_show" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="project_task_form">
+            <field name="name">project.task</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+
+                <!-- HIDDEN FIELDS -->
+
+                <xpath expr="//notebook/page[2]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <field name="project_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('dossie_id','!=',False)]}</attribute>
+                </field>
+                <field name="name" position="attributes">
+                    <attribute name="attrs">{'invisible': [('dossie_id','!=',False)]}</attribute>
+                </field>
+                <field name="tag_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+
+
+                <field name="project_id" position="before">
+                    <field name="dossie_id"/>
+                    <field name="fase_tarefa_id" attrs="{'invisible': [('fase_tarefa_id','=', False)]}"
+                           readonly="1"/>
+                </field>
+
+                <!-- Dossiê Related Fields -->
+
+                <page name="description_page" position="after">
+                    <page name="dossie" string="Dossiê" attrs="{'invisible': [('dossie_id', '=', False)]}">
+                        <group col="2" colspan="2">
+                            <field name="numero_pendencias" invisible="1"/>
+                            <group>
+                                <field name="dossie_name" readonly="1"/>
+                                <field name="origem_id" readonly="1"/>
+                                <field name="processo" readonly="1"/>
+                                <field name="tipo_processo" readonly="1"/>
+                                <field name="dossie_state" readonly="1"/>
+                                <field name="fase_id" readonly="1"/>
+                                <field name="polo_cliente" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="parte_representada_ids" widget="many2many_tags" domain="[('is_parte_representada','=',True)]" readonly="1"/>
+                                <field name="parte_contraria_ids" widget="many2many_tags" domain="[('is_parte_contraria','=',True)]" readonly="1"/>
+                                <field name="parte_contraria_contumaz_ids" widget="many2many_tags" domain="[('is_parte_contraria','=',True)]" readonly="1"/>
+                                <field name="escritorio_id" domain="[('is_escritorio','=', True)]" attrs="{'invisible':[('tem_advogado','=','n')]}" readonly="1"/>
+                                <field name="tem_advogado" readonly="1"/>
+                                <field name="advogado_adverso_ids" widget="many2many_tags" domain="[('is_advogado','=',True)]" attrs="{'invisible':[('tem_advogado','=','n')]}" readonly="1"/>
+                                <field name="advogado_adverso_agressor_ids" widget="many2many_tags" domain="[('is_advogado','=',True)]" attrs="{'invisible':[('tem_advogado','=','n')]}" readonly="1"/>
+                                <field name="assuncao_defesa" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="valor_causa" readonly="1"/>
+                                <field name="valor_dano_moral" readonly="1"/>
+                                <field name="valor_dano_material" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="rito_id" readonly="1"/>
+                                <field name="natureza_id" readonly="1"/>
+                                <field name="tipo_acao_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="ordinal" readonly="1"/>
+                                <field name="vara_id" readonly="1"/>
+                                <field name="orgao_id" readonly="1"/>
+                                <field name="comarca_id" options="{'no_create' :True}" domain="[('state_id','=',estado_id)]" readonly="1"/>
+                                <field name="estado_id" options="{'no_create' :True}" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="objeto_id" readonly="1"/>
+                                <field name="assunto_id" readonly="1"/>
+                                <field name="local_fato" readonly="1"/>
+                                <field name="data_fato" readonly="1"/>
+                            </group>
+                            <group attrs="{'invisible': [('polo_cliente', '!=', 'p')]}">
+                                <field name="parecer" readonly="1"/>
+                                <field name="relatorio_parecer" widget="many2one_binary" readonly="1"/>
+                            </group>
+                            <group attrs="{'invisible': [('polo_cliente', '!=', 'p')]}">
+                                <field name="analise_acordo" readonly="1"/>
+                                <field name="motivo_inaptidao" attrs="{'invisible': [('analise_acordo','!=','i')]}" readonly="1"/>
+                                <field name="valor_alcada" attrs="{'invisible': [('analise_acordo','!=','a')]}" readonly="1"/>
+                                <field name="obrigacao_alcada" attrs="{'invisible': [('analise_acordo','!=','a')]}" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="grupo_id" domain="[('is_grupo','=',True)]" readonly="1"/>
+                                <field name="projeto_id" readonly="1"/>
+                                <field name="credenciado_id" domain="[('is_credenciado','=',True)]" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="fase_cliente" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="contrato_id" context="{'default_dossie_id': active_id}" attrs="{'invisible': [('polo_cliente', '!=', 'a')]}" readonly="1"/>
+                                <field name="contrato_tipo_id" attrs="{'invisible': [('polo_cliente', '!=', 'a')]}" readonly="1"/>
+                            </group>
+                            <group>    
+                                <field name="contrato" attrs="{'invisible': [('polo_cliente', '!=', 'p')]}" readonly="1"/>
+                                <field name="carteira_id" readonly="1"/>
+                                <field name="risco" attrs="{'invisible': [('polo_cliente', '!=', 'p')]}" readonly="1"/>
+                                <field name="responsabilidade" attrs="{'invisible': [('polo_cliente', '!=', 'p')]}" readonly="1"/>
+                                <field name="cessionaria_id" domain="[('is_cessionaria','=',True)]" attrs="{'invisible': [('polo_cliente', '!=', 'p')]}" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Compromissos" name="tasks">
+                                <field name="task_ids" readonly="1">
+                                    <tree>
+                                        <field name="task_type_id" string="Tipo"/>
+                                        <field name="stage_id" string="Estágio"/>
+                                        <field name="fase_tarefa_id"/>
+                                        <field name="create_date" string="Criação"/>
+                                        <field name="date_last_stage_update" string="Última Atualização"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Decisões" name="decisoes">
+                                <notebook>
+                                    <page string="Liminar" name="liminar">
+                                        <group col="2" colspan="2">
+                                            <group>
+                                                <field name="liminar_id" context="{'default_dossie_id':active_id}" readonly="1"/>
+                                                <field name="data_liminar" readonly="1"/>
+                                                <field name="tipo_liminar_id" readonly="1"/>
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <field name="liminar_anexo_id" widget="many2one_binary" readonly="1"/>
+                                        </group>
+                                        <field name="liminar" nolabel="1" readonly="1"/>
+                                    </page>
+                                    <page string="Sentença" name="sentenca">
+                                        <group col="2" colspan="2">
+                                            <group>
+                                                <field name="sentenca_id" context="{'default_dossie_id':active_id}" readonly="1"/>
+                                                <field name="data_sentenca" readonly="1"/>
+                                                <field name="tipo_sentenca_id" readonly="1"/>
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <field name="sentenca_anexo_id" widget="many2one_binary" context="{'default_res_model':'dossie.dossie','default_res_id':active_id,'default_dossie_document_type':'s'}" domain="[('dossie_document_type','=','s')]" readonly="1"/>
+                                        </group>
+                                        <field name="sentenca" nolabel="1" readonly="1"/>
+                                    </page>
+                                    <page string="Acordão" name="acordao">
+                                        <group col="2" colspan="2">
+                                            <group>
+                                                <field name="acordao_id" readonly="1"/>
+                                                <field name="data_acordao" readonly="1"/>
+                                                <field name="tipo_acordao_id" readonly="1"/>
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <field name="acordao_anexo_id" widget="many2one_binary" context="{'default_res_model':'dossie.dossie','default_res_id':active_id,'default_dossie_document_type':'a'}" domain="[('dossie_document_type','=','a')]" readonly="1"/>
+                                        </group>
+                                        <field name="acordao" nolabel="1" readonly="1"/>
+                                    </page>
+                                    <page string="Acordão Superior" name="acordao_superior">
+                                        <group col="2" colspan="2">
+                                            <group>
+                                                <field name="data_acordao_superior" readonly="1"/>
+                                                <field name="tipo_acordao_superior_id" readonly="1"/>
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <field name="acordao_superior_id" widget="many2one_binary" context="{'default_res_model':'dossie.dossie','default_res_id':active_id,'default_dossie_document_type':'a'}" domain="[('dossie_document_type','=','a')]" readonly="1"/>
+                                        </group>
+                                        <field name="acordao_superior" nolabel="1" readonly="1"/>
+                                    </page>
+                                    <page string="Acordão Supremo" name="acordao_supremo">
+                                        <group col="2" colspan="2">
+                                            <group>
+                                                <field name="data_acordao_supremo" readonly="1"/>
+                                                <field name="tipo_acordao_supremo_id" readonly="1"/>
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <field name="acordao_supremo_id" widget="many2one_binary" context="{'default_res_model':'dossie.dossie','default_res_id':active_id,'default_dossie_document_type':'a'}" domain="[('dossie_document_type','=','a')]" readonly="1"/>
+                                        </group>
+                                        <field name="acordao_supremo" nolabel="1" readonly="1"/>
+                                    </page>
+                                </notebook>
+                            </page>
+                            <page string="Inicial" name="inicial">
+                                <group>
+                                    <field name="data_distribuicao" readonly="1"/>
+                                    <field name="inicial_id" widget="many2one_binary" context="{'default_res_model':'dossie.dossie','default_res_id':active_id,'default_dossie_document_type':'i'}" domain="[('dossie_document_type','=','i')]" readonly="1"/>
+                                    <field name="inicial" readonly="1"/>
+                                </group>
+                            </page>
+                            <page string="Citação" name="citacao" attrs="{'invisible': [('polo_cliente', '!=', 'p')]}">
+                                <group>
+                                    <field name="data_citacao" readonly="1"/>
+                                    <field name="citacao_id" widget="many2one_binary" context="{'default_res_model':'dossie.dossie','default_res_id':active_id,'default_dossie_document_type':'c'}" domain="[('dossie_document_type','=','c')]" readonly="1"/>
+                                    <field name="citacao" readonly="1"/>
+                                </group>
+                            </page>
+                            <page string="Movimentações" name="movimentacoes">
+                                <group colspan="4" col="4" string="Histórico de Movimentações">
+                                    <field name="movimentacao_historico_ids" nolabel="1" readonly="1">
+                                        <tree>
+                                            <field name="data"/>
+                                            <field name="tipo"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </page>
+
+                <!-- Task Dynamic Fields -->
+
+                    <page name="dynamic_fields" string="Outros Campos">
+                        <group col="2" colspan="2">
+                            <group string="Audiência" attrs="{'invisible': [('tem_audiencia_show','=',False), ('data_audiencia_show','=',False), ('tipo_audiencia_show','=', False), ('local_audiencia_show','=',False), ('tem_contestacao_show','=',False), ('presentes_audiencia_show','=', False)]}">
+                                <field name="tem_audiencia" attrs="{'invisible': [('tem_audiencia_show','=', False)]}"/>
+                                <field name="tem_audiencia_show" invisible="1"/>
+                                <field name="data_audiencia" attrs="{'invisible': [('data_audiencia_show','=', False)]}"/>
+                                <field name="data_audiencia_show" invisible="1"/>
+                                <field name="tem_audiencia_redesignada" attrs="{'invisible': [('tem_audiencia_redesignada_show','=', False)]}"/>
+                                <field name="tem_audiencia_redesignada_show" invisible="1"/>
+                                <field name="tipo_audiencia" attrs="{'invisible': [('tipo_audiencia_show','=', False)]}"/>
+                                <field name="tipo_audiencia_show" invisible="1"/>
+                                <field name="local_audiencia" attrs="{'invisible': [('local_audiencia_show','=', False)]}"/>
+                                <field name="local_audiencia_show" invisible="1"/>
+                                <field name="tem_contestacao" attrs="{'invisible': [('tem_contestacao_show','=', False)]}"/>
+                                <field name="tem_contestacao_show" invisible="1"/>
+                                <field name="presentes_audiencia" attrs="{'invisible': [('presentes_audiencia_show','=', False)]}"/>
+                                <field name="presentes_audiencia_show" invisible="1"/>
+                            </group>
+                            <group string="Resultado Audiência" attrs="{'invisible': [('ata_show','=', False), ('tem_proxima_audiencia_show','=', False),('data_proxima_audiencia_show','=', False)]}">    
+                                <field name="ata" widget="many2one_binary" attrs="{'invisible': [('ata_show','=', False)]}"/>
+                                <field name="ata_show" invisible="1"/>
+                                <field name="tem_proxima_audiencia" attrs="{'invisible': [('tem_proxima_audiencia_show','=', False)]}"/>
+                                <field name="tem_proxima_audiencia_show" invisible="1"/>
+                                <field name="data_proxima_audiencia" attrs="{'invisible': [('data_proxima_audiencia_show','=', False)]}"/>
+                                <field name="data_proxima_audiencia_show" invisible="1"/>
+                            </group>
+                            <group string="Liminar" attrs="{'invisible': [('related_liminar_id_show','=', False)]}">
+                                <field name="related_liminar_id" attrs="{'invisible': [('related_liminar_id_show','=', False)]}"/>
+                                <field name="related_liminar_id_show" invisible="1"/>
+                            </group>
+                            <group string="Sentença" attrs="{'invisible': [('estado_sentenca_show','=', False), ('related_sentenca_id_show','=', False), ('related_tipo_sentenca_id_show','=',False),('data_prevista_sentenca_show','=', False)]}">
+                                <field name="estado_sentenca" attrs="{'invisible': [('estado_sentenca_show','=', False)]}"/>
+                                <field name="estado_sentenca_show" invisible="1"/>
+                                <field name="related_sentenca_id" attrs="{'invisible': [('related_sentenca_id_show','=', False)]}"/>
+                                <field name="related_sentenca_id_show" invisible="1"/>
+                                <field name="related_tipo_sentenca_id" attrs="{'invisible': [('related_tipo_sentenca_id_show','=', False)]}"/>
+                                <field name="related_tipo_sentenca_id_show" invisible="1"/>
+                                <field name="data_prevista_sentenca" attrs="{'invisible': [('data_prevista_sentenca_show','=', False)]}"/>
+                                <field name="data_prevista_sentenca_show" invisible="1"/>
+                            </group>
+                            <group string="Acordão" attrs="{'invisible': [('related_acordao_id_show','=', False)]}">
+                                <field name="related_acordao_id" attrs="{'invisible': [('related_acordao_id_show','=', False)]}"/>
+                                <field name="related_acordao_id_show" invisible="1"/>
+                            </group>
+                            <group string="Negociação" attrs="{'invisible': [('related_analise_acordo_show','=', False), ('related_valor_alcada_show','=', False), ('related_motivo_inaptidao_show','=', False), ('resultado_negociacao_show','=', False), ('motivo_infrutividade_show','=', False), ('tipo_acordo_show','=', False), ('valor_contraproposta_show','=', False)]}">
+                                <field name="related_analise_acordo" attrs="{'invisible': [('related_analise_acordo_show','=', False)]}"/>
+                                <field name="related_analise_acordo_show" invisible="1"/>
+                                <field name="related_valor_alcada" attrs="{'invisible': [('related_analise_acordo','=','i')]}"/>
+                                <field name="related_valor_alcada_show" invisible="1"/>
+                                <field name="related_obrigacao_alcada" attrs="{'invisible': [('related_analise_acordo','=','i')]}"/>
+                                <field name="related_obrigacao_alcada_show" invisible="1"/>
+                                <field name="related_motivo_inaptidao" attrs="{'invisible': [('related_analise_acordo','=','a')]}"/>
+                                <field name="related_motivo_inaptidao_show" invisible="1"/>
+                                <field name="resultado_negociacao" attrs="{'invisible': [('resultado_negociacao_show','=', False)]}"/>
+                                <field name="resultado_negociacao_show" invisible="1"/>
+                                <field name="motivo_infrutividade" attrs="{'invisible': [('motivo_infrutividade_show','=', False)]}"/>
+                                <field name="motivo_infrutividade_show" invisible="1"/>
+                                <field name="tipo_acordo" attrs="{'invisible': [('tipo_acordo_show','=', False)]}"/>
+                                <field name="tipo_acordo_show" invisible="1"/>
+                                <field name="valor_contraproposta" widget="monetary" attrs="{'invisible': [('valor_contraproposta_show','=', False)]}"/>
+                                <field name="valor_contraproposta_show" invisible="1"/>
+                            </group>
+                            <group string="Trânsito" attrs="{'invisible': [('transitou_show','=', False)]}">
+                                <field name="transitou" attrs="{'invisible': [('transitou_show','=', False)]}"/>
+                                <field name="transitou_show" invisible="1"/>
+                                <field name="tem_sucumbencia" attrs="{'invisible': [('tem_sucumbencia_show','=', False)]}"/>
+                                <field name="tem_sucumbencia_show" invisible="1"/>
+                                <field name="valor_sucumbencia" attrs="{'invisible': [('valor_sucumbencia_show','=', False)]}"/>
+                                <field name="valor_sucumbencia_show" invisible="1"/>
+                            </group>
+                            <group string="Contestação" attrs="{'invisible': [('tem_emenda_show','=', False)]}">
+                                <field name="tem_emenda" attrs="{'invisible': [('tem_emenda_show','=', False)]}"/>
+                                <field name="tem_emenda_show" invisible="1"/>
+                            </group>
+                            <group string="Parecer" attrs="{'invisible': [('tem_parecer_show','=', False), ('related_parecer_show','=', False), ('related_relatorio_parecer','=', False),('analise_parecer_show','=', False),('analise_parecer_observacoes_show','=', False)]}">
+                                <field name="tem_parecer" attrs="{'invisible': [('tem_parecer_show','=', False)]}"/>
+                                <field name="tem_parecer_show" invisible="1"/>
+                                <field name="related_parecer" attrs="{'invisible': [('related_parecer_show','=', False)]}"/>
+                                <field name="related_parecer_show" invisible="1"/>
+                                <field name="related_relatorio_parecer" widget="many2one_binary" attrs="{'invisible': [('related_relatorio_parecer_show','=', False)]}"/>
+                                <field name="related_relatorio_parecer_show" invisible="1"/>
+                                <field name="analise_parecer" attrs="{'invisible': [('analise_parecer_show','=', False)]}"/>
+                                <field name="analise_parecer_show" invisible="1"/>
+                                <field name="analise_parecer_observacoes" attrs="{'invisible': [('analise_parecer_observacoes_show','=', False)]}"/>
+                                <field name="analise_parecer_observacoes_show" invisible="1"/>
+                            </group>
+                            <group string="Pendências Cliente" attrs="{'invisible': [('encerrado_cliente_show','=', False), ('tem_levantamento_cliente_show','=', False), ('tem_obrigacao_cliente_show','=', False), ('tem_pagamento_cliente_show','=', False)]}">
+                                <field name="encerrado_cliente" attrs="{'invisible': [('encerrado_cliente_show','=', False)]}"/>
+                                <field name="encerrado_cliente_show" invisible="1"/>
+                                <field name="tem_levantamento_cliente" attrs="{'invisible': [('tem_levantamento_cliente_show','=', False)]}"/>
+                                <field name="tem_levantamento_cliente_show" invisible="1"/>
+                                <field name="tem_obrigacao_cliente" attrs="{'invisible': [('tem_obrigacao_cliente_show','=', False)]}"/>
+                                <field name="tem_obrigacao_cliente_show" invisible="1"/>
+                                <field name="tem_pagamento_cliente" attrs="{'invisible': [('tem_pagamento_cliente_show','=', False)]}"/>
+                                <field name="tem_pagamento_cliente_show" invisible="1"/>
+                            </group>
+                                <group string="Levantamento" attrs="{'invisible': [('tem_levantamento_show','=', False), ('guia_show','=', False), ('comprovante_repasse_show','=', False)]}">
+                                <field name="tem_levantamento" attrs="{'invisible': [('tem_levantamento_show','=', False)]}"/>
+                                <field name="tem_levantamento_show" invisible="1"/>
+                                <field name="guia" attrs="{'invisible': [('guia_show','=', False)]}" widget="many2one_binary"/>
+                                <field name="guia_show" invisible="1"/>
+                                <field name="comprovante_repasse" widget="many2one_binary" attrs="{'invisible': [('comprovante_repasse_show','=', False)]}"/>
+                                <field name="comprovante_repasse_show" invisible="1"/>
+                            </group>
+                            <group string="Ajuizamento" attrs="{'invisible': [('tem_cedula_show','=', False), ('cedula_anexo_show','=', False), ('tem_prescricao_show','=', False), ('tem_extrato_show','=', False), ('extrato_anexo_show','=', False), ('tem_veiculo_show','=', False), ('tem_endereco_show','=', False), ('tem_telefone_show','=', False)]}">
+                                <field name="tem_cedula" attrs="{'invisible': [('tem_cedula_show','=', False)]}"/>
+                                <field name="tem_cedula_show" invisible="1"/>
+                                <field name="cedula_anexo" widget="many2one_binary" attrs="{'invisible': [('cedula_anexo_show','=', False)]}"/>
+                                <field name="cedula_anexo_show" invisible="1"/>
+                                <field name="related_contrato_id" attrs="{'invisible': [('related_contrato_id_show','=', False)]}"/>
+                                <field name="related_contrato_id_show" invisible="1"/>
+                                <field name="tem_prescricao" attrs="{'invisible': [('tem_prescricao_show','=', False)]}"/>
+                                <field name="tem_prescricao_show" invisible="1"/>
+                                <field name="tem_extrato" attrs="{'invisible': [('tem_extrato_show','=', False)]}"/>
+                                <field name="tem_extrato_show" invisible="1"/>
+                                <field name="extrato_anexo" widget="many2one_binary" attrs="{'invisible': [('extrato_anexo_show','=', False)]}"/>
+                                <field name="extrato_anexo_show" invisible="1"/>
+                                <field name="tem_planilha_debito" attrs="{'invisible': [('tem_planilha_debito_show','=', False)]}"/>
+                                <field name="tem_planilha_debito_show" invisible="1"/>
+                                <field name="planilha_debito_anexo" widget="many2one_binary" attrs="{'invisible': [('planilha_debito_anexo_show','=', False)]}"/>
+                                <field name="planilha_debito_anexo_show" invisible="1"/>
+                                <field name="tem_veiculo" attrs="{'invisible': [('tem_veiculo_show','=', False)]}"/>
+                                <field name="tem_veiculo_show" invisible="1"/>
+                                <field name="tem_endereco" attrs="{'invisible': [('tem_endereco_show','=', False)]}"/>
+                                <field name="tem_endereco_show" invisible="1"/>
+                                <field name="tem_telefone" attrs="{'invisible': [('tem_telefone_show','=', False)]}"/>
+                                <field name="tem_telefone_show" invisible="1"/>
+                            </group>
+                            <group string="Citação" attrs="{'invisible': [('tem_citese_show','=', False), ('related_citacao_id_show','=', False), ('dossie_citacao_id_show','=', False), ('dossie_citacao_parte_contraria_ids_show','=', False), ('citacao_deferida_show','=', False), ('data_citacao_deferida_show','=', False), ('citacao_expedida_show','=', False), ('data_citacao_efetivada_show','=', False), ('citacao_efetivada_show','=', False)]}">
+                                <field name="tem_citese" attrs="{'invisible': [('tem_citese_show','=', False)]}"/>
+                                <field name="tem_citese_show" invisible="1"/>
+                                <field name="related_citacao_id" widget="many2one_binary" attrs="{'invisible': [('related_citacao_id_show','=', False)]}"/>
+                                <field name="related_citacao_id_show" invisible="1"/>
+                                <field name="dossie_citacao_id" attrs="{'invisible': [('dossie_citacao_id_show','=', False)]}"/>
+                                <field name="dossie_citacao_id_show" invisible="1"/>
+                                <field name="dossie_citacao_parte_contraria_ids" widget="many2many_tags" attrs="{'invisible': [('dossie_citacao_parte_contraria_ids_show','=', False)]}"/>      
+                                <field name="dossie_citacao_parte_contraria_ids_show" invisible="1"/>
+                                <field name="citacao_deferida" attrs="{'invisible': [('citacao_deferida_show','=', False)]}"/>
+                                <field name="citacao_deferida_show" invisible="1"/>
+                                <field name="data_citacao_deferida" attrs="{'invisible': [('data_citacao_deferida_show','=', False)]}"/>
+                                <field name="data_citacao_deferida_show" invisible="1"/>
+                                <field name="citacao_expedida" attrs="{'invisible': [('citacao_expedida_show','=', False)]}"/>
+                                <field name="citacao_expedida_show" invisible="1"/>
+                                <field name="data_citacao_expedida" attrs="{'invisible': [('data_citacao_expedida_show','=', False)]}"/>
+                                <field name="data_citacao_expedida_show" invisible="1"/>
+                                <field name="citacao_efetivada" attrs="{'invisible': [('citacao_efetivada_show','=', False)]}"/>
+                                <field name="citacao_efetivada_show" invisible="1"/>
+                                <field name="data_citacao_efetivada" attrs="{'invisible': [('data_citacao_efetivada_show','=', False)]}"/>
+                                <field name="data_citacao_efetivada_show" invisible="1"/>
+                                <field name="dossie_resultado_parte_ids" attrs="{'invisible': [('dossie_resultado_parte_ids_show','=', False)]}">
+                                    <tree editable="bottom">
+                                        <field name="related_parte_contraria_ids" invisible="1"/>
+                                        <field name="parte_contraria_id"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                                <field name="dossie_resultado_parte_ids_show" invisible="1"/>             
+                            </group>
+                            <group string="Penhora" attrs="{'invisible': [('dossie_penhora_id_show','=', False), ('tem_bens_show','=', False), ('penhora_deferida_show','=', False), ('data_penhora_deferida_show','=', False), ('penhora_efetivada_show','=', False), ('data_penhora_efetivada_show','=', False), ('dossie_penhora_tipo_ids_show','=', False), ('dossie_penhora_bem_ids_show','=', False)]}">
+                                <field name="dossie_penhora_id" attrs="{'invisible': [('dossie_penhora_id_show','=', False)]}"/>
+                                <field name="dossie_penhora_id_show" invisible="1"/>
+                                <field name="tem_bens" attrs="{'invisible': [('tem_bens_show','=', False)]}"/>
+                                <field name="tem_bens_show" invisible="1"/>
+                                <field name="penhora_deferida" attrs="{'invisible': [('penhora_deferida_show','=', False)]}"/>
+                                <field name="penhora_deferida_show" invisible="1"/>
+                                <field name="data_penhora_deferida" attrs="{'invisible': [('data_penhora_deferida_show','=', False)]}"/>
+                                <field name="data_penhora_deferida_show" invisible="1"/>
+                                <field name="penhora_efetivada" attrs="{'invisible': [('penhora_efetivada_show','=', False)]}"/>
+                                <field name="penhora_efetivada_show" invisible="1"/>
+                                <field name="data_penhora_efetivada" attrs="{'invisible': [('data_penhora_efetivada_show','=', False)]}"/>
+                                <field name="data_penhora_efetivada_show" invisible="1"/>
+                                <field name="dossie_penhora_tipo_ids" widget="many2many_tags" attrs="{'invisible': [('dossie_penhora_tipo_ids_show','=', False)]}"/>
+                                <field name="dossie_penhora_tipo_ids_show" invisible="1"/>
+                                <field name="dossie_penhora_bem_ids" widget="many2many_tags" attrs="{'invisible': [('dossie_penhora_bem_ids_show','=', False)]}"/>
+                                <field name="dossie_penhora_bem_ids_show" invisible="1"/>
+                            </group>
+                            <group string="Pagamento" attrs="{'invisible': [('tem_pagamento_show','=', False), ('tipo_pagamento_show','=', False), ('tem_multa_pagamento_show','=', False), ('valor_pagamento_show','=', False), ('forma_pagamento_id_show','=', False), ('conta_pagamento_id_show','=', False), ('relatorio_pagamento_show','=', False), ('comprovante_pagamento_show','=', False)]}">
+                                <field name="tem_pagamento" attrs="{'invisible': [('tem_pagamento_show','=', False)]}"/>
+                                <field name="tem_pagamento_show" invisible="1"/>
+                                <field name="tipo_pagamento" attrs="{'invisible': [('tipo_pagamento_show','=', False)]}"/>
+                                <field name="tipo_pagamento_show" invisible="1"/>
+                                <field name="tem_multa_pagamento" attrs="{'invisible': [('tem_multa_pagamento_show','=', False)]}"/>
+                                <field name="tem_multa_pagamento_show" invisible="1"/>
+                                <field name="valor_pagamento" attrs="{'invisible': [('valor_pagamento_show','=', False)]}"/>
+                                <field name="valor_pagamento_show" invisible="1"/>
+                                <field name="forma_pagamento_id" attrs="{'invisible': [('forma_pagamento_id_show','=', False)]}"/>
+                                <field name="forma_pagamento_id_show" invisible="1"/>
+                                <field name="conta_pagamento_id" attrs="{'invisible': [('conta_pagamento_id_show','=', False)]}"/>
+                                <field name="conta_pagamento_id_show" invisible="1"/>
+                                <field name="relatorio_pagamento" widget="many2one_binary" attrs="{'invisible': [('relatorio_pagamento_show','=', False)]}"/>
+                                <field name="relatorio_pagamento_show" invisible="1"/>
+                                <field name="comprovante_pagamento" widget="many2one_binary" attrs="{'invisible': [('comprovante_pagamento_show','=', False)]}"/>
+                                <field name="comprovante_pagamento_show" invisible="1"/>
+                            </group>
+                            <group string="Recurso" attrs="{'invisible': [('precisa_recurso_show','=', False), ('related_tipo_recurso_id_show','=', False), ('tem_dispensa_show','=', False), ('tipo_dispensa_show','=', False), ('relatorio_dispensa_show','=', False)]}">
+                                <field name="precisa_recurso" attrs="{'invisible': [('precisa_recurso_show','=', False)]}"/>
+                                <field name="precisa_recurso_show" invisible="1"/>
+                                <field name="related_tipo_recurso_id" attrs="{'invisible': [('related_tipo_recurso_id_show','=', False)]}"/>
+                                <field name="related_tipo_recurso_id_show" invisible="1"/>
+                                <field name="tem_dispensa" attrs="{'invisible': [('tem_dispensa_show','=', False)]}"/>
+                                <field name="tem_dispensa_show" invisible="1"/>
+                                <field name="tipo_dispensa" attrs="{'invisible': [('tipo_dispensa_show','=', False)]}"/>
+                                <field name="tipo_dispensa_show" invisible="1"/>
+                                <field name="relatorio_dispensa" widget="many2one_binary" attrs="{'invisible': [('relatorio_dispensa_show','=', False)]}"/>
+                                <field name="relatorio_dispensa_show" invisible="1"/>
+                            </group>
+                            <group string="Prazo" attrs="{'invisible': [('precisa_prazo_show','=',False),('related_tipo_prazo_id_show','=', False)]}">
+                                <field name="precisa_prazo" attrs="{'invisible': [('precisa_prazo_show','=', False)]}"/>
+                                <field name="precisa_prazo_show" invisible="1"/>
+                                <field name="related_tipo_prazo_id" attrs="{'invisible': [('related_tipo_prazo_id_show','=', False)]}"/>
+                                <field name="related_tipo_prazo_id_show" invisible="1"/>
+                            </group>
+                            <group string="Obrigação" attrs="{'invisible': [('tem_obrigacao_show','=', False), ('tipos_obrigacoes_ids_show','=', False), ('tem_multa_obrigacao_show','=', False), ('obrigacao_show','=', False), ('pedido_obrigacao_show','=', False), ('comprovante_obrigacao_show','=', False), ('motivo_nao_cumprimento_show','=', False), ('tem_baixa_restritivo_show','=', False)]}">
+                                <field name="tem_obrigacao" attrs="{'invisible': [('tem_obrigacao_show','=', False)]}"/>
+                                <field name="tem_obrigacao_show" invisible="1"/>
+                                <field name="tipos_obrigacoes_ids" widget="many2many_tags" attrs="{'invisible': [('tipos_obrigacoes_ids_show','=', False)]}"/>
+                                <field name="tipos_obrigacoes_ids_show" invisible="1"/>
+                                <field name="tem_multa_obrigacao" attrs="{'invisible': [('tem_multa_obrigacao_show','=', False)]}"/>
+                                <field name="tem_multa_obrigacao_show" invisible="1"/>
+                                <field name="obrigacao" attrs="{'invisible': [('obrigacao_show','=', False)]}"/>
+                                <field name="obrigacao_show" invisible="1"/>
+                                <field name="pedido_obrigacao" widget="many2one_binary" attrs="{'invisible': [('pedido_obrigacao_show','=', False)]}"/>
+                                <field name="pedido_obrigacao_show" invisible="1"/>
+                                <field name="comprovante_obrigacao" widget="many2one_binary" attrs="{'invisible': [('comprovante_obrigacao_show','=', False)]}"/>
+                                <field name="comprovante_obrigacao_show" invisible="1"/>
+                                <field name="motivo_nao_cumprimento" attrs="{'invisible': [('motivo_nao_cumprimento_show','=', False)]}"/>
+                                <field name="motivo_nao_cumprimento_show" invisible="1"/>
+                                <field name="tem_baixa_restritivo" attrs="{'invisible': [('tem_baixa_restritivo_show','=', False)]}"/>
+                                <field name="tem_baixa_restritivo_show" invisible="1"/>
+                            </group>
+                            <group string="Petição" attrs="{'invisible': [('peticao_show','=', False), ('tem_juntada_show','=', False), ('documento_juntada_show','=', False)]}">
+                                <field name="peticao" attrs="{'invisible': [('peticao_show','=', False)]}" widget="many2one_binary"/>
+                                <field name="peticao_show" invisible="1"/>
+                                <field name="tem_juntada" attrs="{'invisible': [('tem_juntada_show','=', False)]}"/>
+                                <field name="tem_juntada_show" invisible="1"/>
+                                <field name="documento_juntada" widget="many2many_binary" attrs="{'invisible': [('documento_juntada_show','=', False)]}"/>
+                                <field name="documento_juntada_show" invisible="1"/>
+                            </group>
+                            <group string="Documentos" attrs="{'invisible': [('precisa_documento_show','=', False), ('tipos_documentos_ids_show','=', False), ('observacoes_documentos_show','=', False), ('tipo_conclusao_documentos_show','=', False), ('documentos_solicitado_ids_show','=', False)]}">
+                                <field name="precisa_documento" attrs="{'invisible': [('precisa_documento_show','=', False)]}"/>
+                                <field name="precisa_documento_show" invisible="1"/>
+                                <field name="tipos_documentos_ids" widget="many2many_tags" attrs="{'invisible': [('tipos_documentos_ids_show','=', False)]}"/>
+                                <field name="tipos_documentos_ids_show" invisible="1"/>
+                                <field name="observacoes_documentos" attrs="{'invisible': [('observacoes_documentos_show','=', False)]}"/>
+                                <field name="observacoes_documentos_show" invisible="1"/>
+                                <field name="tipo_conclusao_documentos" attrs="{'invisible': [('tipo_conclusao_documentos_show','=', False)]}"/>
+                                <field name="tipo_conclusao_documentos_show" invisible="1"/>
+                                <field name="documentos_solicitado_ids" widget="many2many_binary" attrs="{'invisible': [('documentos_solicitado_ids_show','=', False)]}"/>
+                                <field name="documentos_solicitado_ids_show" invisible="1"/>
+                            </group>
+                            <group string="Cópias" attrs="{'invisible': [('precisa_copias_show','=', False), ('copias_aprovado_show','=', False), ('observacoes_copias_show','=', False), ('copias_show','=', False)]}">
+                                <field name="precisa_copias" attrs="{'invisible': [('precisa_copias_show','=', False)]}"/>
+                                <field name="precisa_copias_show" invisible="1"/>
+                                <field name="copias_aprovado" attrs="{'invisible': [('copias_aprovado_show','=', False)]}"/>
+                                <field name="copias_aprovado_show" invisible="1"/>
+                                <field name="observacoes_copias" attrs="{'invisible': [('observacoes_copias_show','=', False)]}"/>
+                                <field name="observacoes_copias_show" invisible="1"/>
+                                <field name="copias" widget="many2many_binary" attrs="{'invisible': [('copias_show','=', False)]}"/>
+                                <field name="copias_show" invisible="1"/>
+                            </group>
+                            <group string="Custas" attrs="{'invisible': [('tem_preparo_show','=', False), ('valor_preparo_show','=', False), ('guias_preparo_show','=', False), ('guias_pagas_custas_show','=', False)]}">
+                                <field name="tem_preparo" attrs="{'invisible': [('tem_preparo_show','=', False)]}"/>
+                                <field name="tem_preparo_show" invisible="1"/>
+                                <field name="valor_preparo" attrs="{'invisible': [('valor_preparo_show','=', False)]}"/>
+                                <field name="valor_preparo_show" invisible="1"/>
+                                <field name="guias_preparo" widget="many2many_binary" attrs="{'invisible': [('guias_preparo_show','=', False)]}"/>
+                                <field name="guias_preparo_show" invisible="1"/>
+                                <field name="guias_pagas_custas" widget="many2many_binary" attrs="{'invisible': [('guias_pagas_custas_show','=', False)]}"/>
+                                <field name="guias_pagas_custas_show" invisible="1"/>
+                            </group>
+                            <group string="Protocolo" attrs="{'invisible': [('guia_paga_show','=', False), ('valor_protocolo_show','=', False), ('comprovante_protocolo_show','=', False)]}">
+                                <field name="guia_paga" attrs="{'invisible': [('guia_paga_show','=', False)]}" widget="many2one_binary"/>
+                                <field name="guia_paga_show" invisible="1"/>
+                                <field name="valor_protocolo" attrs="{'invisible': [('valor_protocolo_show','=', False)]}"/>
+                                <field name="valor_protocolo_show" invisible="1"/>
+                                <field name="comprovante_protocolo" widget="many2one_binary" attrs="{'invisible': [('comprovante_protocolo_show','=', False)]}"/>
+                                <field name="comprovante_protocolo_show" invisible="1"/>
+                            </group>
+                            <group string="Correspondente" attrs="{'invisible': [('correspondente_id_show','=', False),('valor_correspondente_show','=', False), ('advogado_id_show','=', False), ('preposto_id_show','=', False)]}">
+                                <field name="correspondente_id" domain="[('id','in', valid_correspondente_ids and valid_correspondente_ids[0][2])]" 
+                                        attrs="{'invisible': [('correspondente_id_show','=', False)]}"/>
+                                <field name="correspondente_id_show" invisible="1"/>
+                                <field name="valid_correspondente_ids" invisible="1"/>
+                                <field name="valor_correspondente" attrs="{'invisible': [('valor_correspondente_show','=', False)]}"/>
+                                <field name="valor_correspondente_show" invisible="1"/>
+                                <field name="advogado_id" attrs="{'invisible': [('advogado_id_show','=', False)]}" domain="[('is_advogado', '=', True)]"/>
+                                <field name="advogado_id_show" invisible="1"/>
+                                <field name="preposto_id" attrs="{'invisible': [('preposto_id_show','=', False)]}"/>
+                                <field name="preposto_id_show" invisible="1"/>
+                            </group>
+                            <group string="Adiantamento / Reembolso" attrs="{'invisible': [('lote_show','=', False), ('numero_recibo_show','=', False), ('recibo_anexo_show','=', False)]}">
+                                <field name="lote" attrs="{'invisible': [('lote_show','=', False)]}"/>
+                                <field name="lote_show" invisible="1"/>
+                                <field name="numero_recibo" attrs="{'invisible': [('numero_recibo_show','=', False)]}"/>
+                                <field name="numero_recibo_show" invisible="1"/>
+                                <field name="recibo_anexo" widget="many2one_binary" attrs="{'invisible': [('recibo_anexo_show','=', False)]}"/>
+                                <field name="recibo_anexo_show" invisible="1"/>
+                            </group>
+                            <group string="Oficios" attrs="{'invisible': [('area_oficio_id_show','=', False)]}">
+                                <field name="area_oficio_id" attrs="{'invisible': [('area_oficio_id_show','=', False)]}"/>
+                                <field name="area_oficio_id_show" invisible="1"/>
+                            </group>
+                            <group string="Cancelamento" attrs="{'invisible': [('motivo_cancelamento_id_show','=', False), ('cancelamento_aprovado_show','=', False)]}">
+                                <field name="motivo_cancelamento_id" attrs="{'invisible': [('motivo_cancelamento_id_show','=', False)]}"/>
+                                <field name="motivo_cancelamento_id_show" invisible="1"/>
+                                <field name="cancelamento_aprovado" attrs="{'invisible': [('cancelamento_aprovado_show','=', False)]}"/>
+                                <field name="cancelamento_aprovado_show" invisible="1"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Movimentação">
+                        <field name="movimentacao_id" nolabel="1"/>
+                        <field name="movimentacao" nolabel="1"/>
+                    </page>
+                </page>
+            </field>
+        </record>
+    </data>
+</odoo>
