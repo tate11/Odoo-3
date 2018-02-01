@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="table_cleaner_tree_view">
+        <field name="name">table.cleaner.tree</field>
+        <field name="model">table.cleaner</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Table Cleaner">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="table_cleaner_form_view">
+        <field name="name">table.cleaner.form</field>
+        <field name="model">table.cleaner</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Table Cleaner">
+                <header>
+                    <button name="load_fields" string="Load Fields" class="oe_highlight" type="object"/>
+                    <button name="delete_fields" string="Remove Fields" class="oe_highlight" type="object"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" required="1" options="{'no_create': True}"/>
+                        <field name="cleaner_line_ids" colspan="4" string=" ">
+                            <tree create="false">
+                                <field name="field_id" readonly="1"/>
+                                <field name="field_name" readonly="1"/>
+                                <field name="field_type" readonly="1"/>
+                                <field name="field_relation" readonly="1"/>
+                            </tree>
+                        </field>
+                    </group>     
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="table_cleaner_action">
+        <field name="name">Table Cleaner</field>
+        <field name="res_model">table.cleaner</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+    <menuitem name="Cleaners" id="cleaner_menu" sequence="400" parent="base.menu_custom"/>
+    <menuitem name="Table Cleaner" id="table_cleaner_menu" action="table_cleaner_action" parent="cleaner_menu" sequence="10"/>
+</odoo>

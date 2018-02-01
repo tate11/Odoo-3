@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<openerp>
+    <data>
+
+        <record model="ir.cron" id="ir_model_add_read_global_access">
+           <field name="name">Set Global Access To Read</field>
+           <field name="interval_number">1</field>
+           <field name="interval_type">days</field>
+           <field name="numbercall">-1</field>
+           <field name="model" eval="'ir.model'"/>
+           <field name="function" eval="'_cron_add_read_global_access'"/>
+           <field name="args" eval="'()'"/>
+        </record>
+
+    </data>
+</openerp>

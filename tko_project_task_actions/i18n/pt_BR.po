@@ -1,0 +1,369 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* tko_project_task_actions
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0+pro\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-01 02:13+0000\n"
+"PO-Revision-Date: 2017-11-01 02:13+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,help:tko_project_task_actions.field_project_task_action_line_kanban_state
+msgid "A task's kanban state indicates special situations affecting it:\n"
+" * Normal is the default situation\n"
+" * Blocked indicates something is preventing the progress of this task\n"
+" * Ready for next stage indicates the task is ready to be pulled to the next stage"
+msgstr "Um estado de tarefa kanban indica uma situação especial que a afeta:\n"
+" * Normal é a situação padrão\n"
+" * Bloqueada indica que algo está impedindo o progresso da tarefa\n"
+" * Pronta para o próximo estágio indica que a tarefa está pronta para ser enviada para o próximo estágio"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_action_id
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_ids
+msgid "Actions"
+msgstr "Ações"
+
+#. module: tko_project_task_actions
+#: selection:project.task.action,expected_duration_unit:0
+msgid "Business Days"
+msgstr "Dias Úteis"
+
+#. module: tko_project_task_actions
+#: model:ir.ui.view,arch_db:tko_project_task_actions.action_lines_cancel_form
+#: model:ir.ui.view,arch_db:tko_project_task_actions.task_action_line_form_view
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_cancel_filter_id
+msgid "Cancel Filter"
+msgstr "Filtro de Cancelamento"
+
+#. module: tko_project_task_actions
+#: model:ir.actions.act_window,name:tko_project_task_actions.action_lines_cancel_form_action
+msgid "Cancel Lines"
+msgstr "Ações Canceladas"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_cancel_server_action_id
+msgid "Cancel Server Action"
+msgstr "Ação de Cancelamento"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_cancel_filter_warning_message
+msgid "Cancel Warning Message"
+msgstr "Mensagem de Aviso de Cancelamento"
+
+#. module: tko_project_task_actions
+#: selection:project.task.action.line,state:0
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: tko_project_task_actions
+#: model:ir.ui.view,arch_db:tko_project_task_actions.action_lines_cancel_form
+#: model:ir.ui.view,arch_db:tko_project_task_actions.action_lines_conclude_form
+msgid "Close"
+msgstr "Fechar"
+
+#. module: tko_project_task_actions
+#: model:ir.ui.view,arch_db:tko_project_task_actions.action_lines_conclude_form
+msgid "Conclude"
+msgstr "Concluír"
+
+#. module: tko_project_task_actions
+#: model:ir.actions.act_window,name:tko_project_task_actions.action_lines_conclude_form_action
+msgid "Conclude Lines"
+msgstr "Concluír Ações"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_action_lines_cancel_create_uid
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_action_lines_conclude_create_uid
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_create_uid
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_action_lines_cancel_create_date
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_action_lines_conclude_create_date
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_create_date
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_partner_id
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_expected_type
+msgid "Date Condition"
+msgstr "Condição de Prazo"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_expected_date_field_id
+#: selection:project.task.action,expected_type:0
+msgid "Date Field"
+msgstr "Campo Data"
+
+#. module: tko_project_task_actions
+#: selection:project.task.action,expected_duration_unit:0
+msgid "Day"
+msgstr "Dias"
+
+#. module: tko_project_task_actions
+#: model:ir.ui.view,arch_db:tko_project_task_actions.task_action_line_form_view
+msgid "Days"
+msgstr "Dias"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_delay_expected_date_field_id
+msgid "Delay"
+msgstr "Atraso"
+
+#. module: tko_project_task_actions
+#: selection:project.task.action.line,is_delayed:0
+msgid "Delayed"
+msgstr "Atrasado"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_task_description
+msgid "Description"
+msgstr "Descrição"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_action_lines_cancel_display_name
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_action_lines_conclude_display_name
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_display_name
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_display_name
+msgid "Display Name"
+msgstr "Nome para Mostrar"
+
+#. module: tko_project_task_actions
+#: model:ir.ui.view,arch_db:tko_project_task_actions.task_action_line_form_view
+#: selection:project.task.action.line,state:0
+msgid "Done"
+msgstr "Concluído"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_done_date
+msgid "Done Date"
+msgstr "Data de Conclusão"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_done_filter_id
+msgid "Done Filter"
+msgstr "Filtro de Conclusão"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_done_server_action_id
+msgid "Done Server Action"
+msgstr "Ação de Conclusão"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_done_filter_warning_message
+msgid "Done Warning Message"
+msgstr "Aviso de Conclusão"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_expected_date
+msgid "Expected Date"
+msgstr "Data Limite"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_expected_duration
+msgid "Expected Time"
+msgstr "Tempo Estimado"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_expected_duration_unit
+msgid "Expected Time Unit"
+msgstr "Unidade de Tempo Estimado"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_action_lines_cancel_id
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_action_lines_conclude_id
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_id
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_id
+msgid "ID"
+msgstr "ID"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_is_delayed
+msgid "Is delayed"
+msgstr "Atrasado"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_kanban_state
+msgid "Kanban State"
+msgstr "Situação"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_action_lines_cancel___last_update
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_action_lines_conclude___last_update
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action___last_update
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line___last_update
+msgid "Last Modified on"
+msgstr "Última atualização em"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_action_lines_cancel_write_uid
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_action_lines_conclude_write_uid
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_write_uid
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_write_uid
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_action_lines_cancel_write_date
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_action_lines_conclude_write_date
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_write_date
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_write_date
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: tko_project_task_actions
+#: selection:project.task.action,expected_duration_unit:0
+msgid "Month"
+msgstr "Mês"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_name
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_name
+msgid "Name"
+msgstr "Nome"
+
+#. module: tko_project_task_actions
+#: selection:project.task.action.line,state:0
+msgid "New"
+msgstr "Novo"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_project_id
+msgid "Project"
+msgstr "Projeto"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_remaining_days
+msgid "Remaining Days"
+msgstr "Dias Restantes"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_state
+msgid "State"
+msgstr "Estado"
+
+#. module: tko_project_task_actions
+#: model:ir.model,name:tko_project_task_actions.model_project_task
+#: model:ir.model.fields,field_description:tko_project_task_actions.field_project_task_action_line_task_id
+msgid "Task"
+msgstr "Tarefa"
+
+#. module: tko_project_task_actions
+#: model:ir.ui.view,arch_db:tko_project_task_actions.task_action_form_view
+#: model:ir.ui.view,arch_db:tko_project_task_actions.task_action_line_calendar_view
+#: model:ir.ui.view,arch_db:tko_project_task_actions.view_task_form_inherit
+msgid "Task Action"
+msgstr "Ações"
+
+#. module: tko_project_task_actions
+#: model:ir.ui.view,arch_db:tko_project_task_actions.task_action_line_form_view
+#: model:ir.ui.view,arch_db:tko_project_task_actions.task_action_line_graph_view
+#: model:ir.ui.view,arch_db:tko_project_task_actions.task_action_line_pivot_view
+msgid "Task Action Line"
+msgstr "Ação"
+
+#. module: tko_project_task_actions
+#: model:ir.actions.act_window,name:tko_project_task_actions.task_action_line_action
+#: model:ir.ui.menu,name:tko_project_task_actions.task_action_line_menu
+#: model:ir.ui.view,arch_db:tko_project_task_actions.task_action_line_tree_view
+msgid "Task Action Lines"
+msgstr "Ações"
+
+#. module: tko_project_task_actions
+#: model:ir.actions.act_window,name:tko_project_task_actions.task_action_action
+#: model:ir.ui.menu,name:tko_project_task_actions.task_action_menu
+#: model:ir.ui.view,arch_db:tko_project_task_actions.task_action_tree_view
+msgid "Task Actions"
+msgstr "Ações"
+
+#. module: tko_project_task_actions
+#: model:ir.ui.view,arch_db:tko_project_task_actions.task_action_line_form_view
+msgid "Task Description"
+msgstr "Descrição da Tarefa"
+
+#. module: tko_project_task_actions
+#: model:ir.model,name:tko_project_task_actions.model_project_task_type
+msgid "Task Stage"
+msgstr "Estágio da Tarefa"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,help:tko_project_task_actions.field_project_task_action_cancel_server_action_id
+msgid "This server action will be executed when Actions is set to cancel"
+msgstr "Esta ação será executada no cancelamento da ação"
+
+#. module: tko_project_task_actions
+#: model:ir.model.fields,help:tko_project_task_actions.field_project_task_action_done_server_action_id
+msgid "This server action will be executed when Actions is set to done"
+msgstr "Esta ação será executada na conclusão da ação"
+
+#. module: tko_project_task_actions
+#: selection:project.task.action,expected_type:0
+msgid "Time"
+msgstr "Tempo"
+
+#. module: tko_project_task_actions
+#: selection:project.task.action.line,state:0
+msgid "To Do"
+msgstr "A Fazer"
+
+#. module: tko_project_task_actions
+#: model:ir.ui.view,arch_db:tko_project_task_actions.task_action_form_view
+msgid "Warning message if cancel filter not validated"
+msgstr "Aviso de cancelamento caso caso filtro não validado"
+
+#. module: tko_project_task_actions
+#: model:ir.ui.view,arch_db:tko_project_task_actions.task_action_form_view
+msgid "Warning message if done filter not validated"
+msgstr "Aviso de conclusão caso caso filtro não validado"
+
+#. module: tko_project_task_actions
+#: selection:project.task.action,expected_duration_unit:0
+msgid "Week"
+msgstr "Semanas"
+
+#. module: tko_project_task_actions
+#: selection:project.task.action,expected_duration_unit:0
+msgid "Year"
+msgstr "Anos"
+
+#. module: tko_project_task_actions
+#: model:ir.model,name:tko_project_task_actions.model_action_lines_cancel
+msgid "action.lines.cancel"
+msgstr "action.lines.cancel"
+
+#. module: tko_project_task_actions
+#: model:ir.model,name:tko_project_task_actions.model_action_lines_conclude
+msgid "action.lines.conclude"
+msgstr "action.lines.conclude"
+
+#. module: tko_project_task_actions
+#: model:ir.model,name:tko_project_task_actions.model_project_task_action
+msgid "project.task.action"
+msgstr "project.task.action"
+
+#. module: tko_project_task_actions
+#: model:ir.model,name:tko_project_task_actions.model_project_task_action_line
+msgid "project.task.action.line"
+msgstr "project.task.action.line"
+

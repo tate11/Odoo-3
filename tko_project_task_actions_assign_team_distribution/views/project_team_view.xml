@@ -1,0 +1,48 @@
+<odoo>
+    <record id="task_action_form_view_inherit" model="ir.ui.view">
+        <field name="name">Project Task Action Form</field>
+        <field name="model">project.task.action</field>
+        <field name="inherit_id" ref="tko_project_task_actions_assign_team.task_action_form_view_inherit"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="team_type" widget="radio"/>
+                <field name="distribution_id" attrs="{'invisible': [('team_type','=','t')]}"/>
+            </field>
+            <field name="team_id" position="attributes">
+                <attribute name="attrs">{'invisible': [('team_type','=','d')]}</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="team_distribution_form_view" model="ir.ui.view">
+        <field name="name">Team Distribution Form</field>
+        <field name="model">project.team.distribution</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" required="1"/>
+                    </group>
+                    <group  string="Distribution Lines">
+                        <field name="team_distribution_line_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="team_id"/>
+                                <field name="domain"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+     <record id="team_distribution_action" model="ir.actions.act_window">
+            <field name="name">Team Distribution Action</field>
+            <field name="res_model">project.team.distribution</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="distribucao_team_menu" action="team_distribution_action" sequence="50"
+                  parent="project.menu_project_management"/>
+</odoo>

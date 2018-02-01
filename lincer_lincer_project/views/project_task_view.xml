@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Task Type Form View -->
+        <record id="task_type_form_view_inherit" model="ir.ui.view">
+            <field name="model">task.type</field>
+            <field name="inherit_id" ref="tko_project_task_type.task_type_form_view"/>
+            <field name="arch" type="xml">
+                <field name="color" position="after">
+                    <separator string="Fields"/>
+                    <field name="field_ids" colspan="4" nolabel="1" options="{'no_create':True}"
+                           widget="many2many_tags"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- Dynamic Fields Project Task -->
+        <record id="view_task_form_dynamic_fields" model="ir.ui.view">
+            <field name="name">project.task</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page name="other_fields" string="Other Fields">
+                        <group col="2" colspan="2">
+                            <group string="Workflow" attrs="{'invisible': [('ready_analysis_show','!=',True)]}">
+                                <field name="ready_analysis" attrs="{'invisible': [('ready_analysis_show','!=',True)]}"/>
+                                <field name="ready_analysis_show" invisible="1"/>
+                                <field name="approved" attrs="{'invisible': [('approved_show','!=',True)]}"/>
+                                <field name="approved_show" invisible="1"/>
+                                <field name="validated" attrs="{'invisible': [('valitaded_show','!=',True)]}"/>
+                                <field name="valitaded_show" invisible="1"/>
+                                <field name="cancel_reason" attrs="{'invisible': [('cancel_reason_show','!=',True)]}"/>
+                                <field name="cancel_reason_show" invisible="1"/>
+                            </group>
+                            <group string="Odoo" attrs="{'invisible': [('test_url_show','!=',True)]}">
+                                <field name="test_url" attrs="{'invisible': [('test_url_show','!=',True)]}"/>
+                                <field name="test_url_show" invisible="1"/>
+                                <field name="odoo_version" attrs="{'invisible': [('odoo_version_show','!=',True)]}"/>
+                                <field name="odoo_version_show" invisible="1"/>
+                            </group>
+                            <group string="Github" attrs="{'invisible': [('git_branch_show','!=',True)]}">
+                                <field name="git_branch" attrs="{'invisible': [('git_branch_show','!=',True)]}"/>
+                                <field name="git_branch_show" invisible="1"/>
+                                <field name="git_branch_url" attrs="{'invisible': [('git_branch_url_show','!=',True)]}"/>
+                                <field name="git_branch_url_show" invisible="1"/>
+                                <field name="git_repository_id" attrs="{'invisible': [('git_repository_id_show','!=',True)]}"/>
+                                <field name="git_repository_id_show" invisible="1"/>
+                                <field name="git_pr_master" attrs="{'invisible': [('git_pr_master_show','!=',True)]}"/>
+                                <field name="git_pr_master_show" invisible="1"/>
+                                <field name="git_pr_dev" attrs="{'invisible': [('git_pr_dev_show','!=',True)]}"/>
+                                <field name="git_pr_dev_show" invisible="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+</odoo>
