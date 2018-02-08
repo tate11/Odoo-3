@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="lincer_board_assets_backend" name="lincer_board assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/lincer_board/static/src/js/dashboard.js"></script>
+        </xpath>
+    </template>
+</odoo>

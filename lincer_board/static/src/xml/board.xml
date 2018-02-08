@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <t t-extend="SearchView.addtodashboard">
+        <t t-jquery="input.o_add_to_dashboard_input" t-operation="before">
+            <span><b>Board Menu</b></span>
+            <select class="o_add_board_board_views o_board_view_selector"/>
+            <span><b>Board Name</b></span>
+        </t>
+    </t>
+</template>
