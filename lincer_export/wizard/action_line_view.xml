@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="action_line_export_view" model="ir.ui.view">
+            <field name="name">task.action.line.export.form</field>
+            <field name="model">task.action.line.export</field>
+            <field name="arch" type="xml">
+                <form string="Gerador de Compromissos">
+                    <p class="oe_grey">
+                        Task Action Line Export.
+                    </p>
+                    <footer>
+                        <button string="Export Lines" name="export_action_lines" type="object" default_focus="1" class="btn-primary"/>
+                        <button string="Cancelar" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_task_action_line_export"
+            multi="True"
+            key2="client_action_multi" name="Export Task Action Lines"
+            res_model="task.action.line.export" src_model="project.task.action.line"
+            view_mode="form" target="new" view_type="form"/>
+    </data>
+</odoo>
