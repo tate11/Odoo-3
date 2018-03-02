@@ -1,0 +1,452 @@
+
+.o_application_changer {
+
+    background-position: center;
+    background-image: url(/studio_backend_theme_v10/static/src/img/app-changer-bg.jpg);
+    .o-background-size(cover);
+    .o-linear-gradient(@deg: 90deg, @start-color: #565d78, @end-color: #65545c);
+
+    font-size: @odoo-font-size-base-touch;
+
+    .o_menu_search.o_bar_hidden input {
+        cursor: default;
+    }
+
+    .o_application_changer_scrollable {
+
+        .o_apps {
+            margin-top: 10px;
+
+            .user-select(none);
+
+            .o_app {
+                padding: 10px 0;
+                background: transparent;
+                border: 1px solid transparent;
+                border-radius: 6%;
+                text-decoration: none;
+                text-align: center;
+                outline: none;
+                .o-transition(all, 0.3s);
+
+                .o_app_icon {
+                    width: 80%;
+                    max-width: 70px;
+                    border-radius: 6%;
+                    .o-transition(all, 0.1s);
+                    box-shadow: 0 6px 15px fade(black, 5%);
+                    -webkit-filter: grayscale(25%);
+                    filter: grayscale(25%);
+                }
+
+                div.o_app_icon { 
+                    margin: auto;
+                    position: relative;
+                    overflow: hidden;
+
+                    &:before {
+                        content: "";
+                        display: block;
+                        padding-top: 100%;
+                    }
+
+                    > i.fa {
+                        .o-position-absolute(27%, 0, auto, 0);
+                        font-size: 36px;
+
+                        @media screen and (max-width: 408px) { 
+                            font-size: 30px;
+                            font-size: 8.826vw;
+                        }
+                    }
+                }
+
+                .o_caption {
+                    .o-text-overflow(block);
+                    margin-top: 8px;
+                    color: white;
+                    font-weight: 700;
+                }
+
+                &:focus, &.o_focused {
+                    background-color: fade(white, 10%);
+
+                    .o_app_icon {
+                        box-shadow: 0 0 0 transparent;
+                        -webkit-filter: grayscale(0%);
+                        filter: grayscale(0%);
+                    }
+                }
+
+                &:hover {
+                    border-color: fade(white, 8%);
+                    background-color: fade(white, 5%);
+
+                    .o_app_icon {
+                        box-shadow: 0 0 0 transparent;
+                        -webkit-filter: grayscale(0%);
+                        filter: grayscale(0%);
+                    }
+                }
+            }
+        }
+
+        .o_menuitems {
+            margin-bottom: 40px;
+
+            .o_menuitem {
+                padding: 2px;
+                .o-text-overflow();
+                color: @odoo-brand-lightsecondary;
+                margin-bottom: 3px;
+                @media (min-width: @screen-sm-min) {
+                    font-size: 20px;
+                }
+                outline: none;
+                width: 100%;
+                @media (max-width: @screen-xs-max) {
+                    padding: 5px 0;
+                }
+                &:hover {
+                    color: white;
+                }
+                &:focus, &.o_focused {
+                    background-color: fade(white, 5%);
+                }
+            }
+        }
+
+        .o_no_result {
+            color: @odoo-brand-lightsecondary;
+            font-size: 22px;
+            margin-top: 10px;
+        }
+
+        .o_application_changer_footer {
+            .user-select(none);
+            > img {
+                width: 96px;
+                margin-bottom: 30px;
+            }
+        }
+    }
+}
+
+.oe_instance_register_form, .oe_instance_success, .oe_instance_error, .oe_subscription_updated {
+    display: none;
+}
+
+// --------------------------------------------
+
+
+.o_application_changer {
+    height: 100%;
+    overflow: auto;
+    .o-flex-display();
+    .o-flex-flow(column, nowrap);
+    .o-align-items(center);
+
+    .o_application_changer_scrollable {
+        .o-flex-display();
+        .o-flex-flow(column, nowrap);
+        .o-align-items(center);
+        .o-flex(1, 0, auto);
+        width: 100%;
+        max-width: @screen-sm-min;
+        
+        .o_apps {
+            .o-flex(0, 0, auto);
+            width: 100%;
+            max-width: @screen-sm-min;
+            .clearfix();
+
+            .o_app {
+                float: left;
+                margin: 0 1.5% 15px;
+                width: 13.66%; // +3% margin = 6 apps per line
+                @media (max-width: @screen-xs-max) {
+                    width: 22%; // +3% margin = 4 apps per line
+                }
+            }
+        }
+        .o_menuitems {
+            width: 100%;
+
+            .o-flex(1, 0, auto);
+            .o_menuitem {
+                @media (max-width: @screen-xs-max) {
+                    padding: 6px;
+                }
+            }
+            
+        }
+        .o_no_results {
+            .o-flex(1, 0, auto);
+        }
+    }
+    .o_application_changer_footer {
+        .o-flex-display();
+        .o-flex(1, 0, auto);
+        align-items: flex-end;
+    }
+}
+
+// ---------------------------------------
+
+.o-when-not-full() {
+    width: 0;
+    max-height: @breadcrumb-height;
+    transition: width 400ms ease, max-height 0ms ease 0ms;
+}
+.o-when-full() {
+    width: 88%;
+    max-height: 1000px;
+    transition: width 400ms ease, max-height 0ms ease 400ms;
+}
+
+@media (max-width: @screen-xs-max) {
+    .o_control_panel {
+        .breadcrumb  {
+            .o-when-not-full();
+            overflow: hidden;
+            white-space: nowrap;            
+
+            > li {
+                &:before {
+                    display: none;
+                }
+
+                &.o_back_button {
+                    .btn;
+                    .btn-sm;
+                    .btn-default;
+
+                    &:before {
+                        font-family: FontAwesome;
+                        content: ""; // fa-arrow-left
+                        display: inline-block;
+
+                        padding: 0; // override bootstrap
+                        color: inherit;
+                    }
+
+                    > a {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        .o_cp_searchview {
+            .o-when-full();
+
+            > div { // searchview or custom widget
+                width: 100%;
+                max-height: 1000px;
+                transition: max-height 0ms ease 400ms;
+                
+                overflow: hidden;
+                &.active {
+                    overflow: visible;
+                }
+
+                padding-right: 0;
+                .o_searchview_more {
+                    display: none;
+                }
+            }
+        }
+
+        .o_cp_sidebar, .o_cp_switch_buttons {
+            display: none;
+        }
+
+        .o_search_options {
+            display: block;
+        }
+
+        &.o_breadcrumb_full {
+            .breadcrumb {
+                .o-when-full();
+            }
+
+            .o_cp_searchview {
+                .o-when-not-full();
+
+                > div { // searchview or custom widget
+                    max-height: @breadcrumb-height;
+                    transition: max-height 0ms ease 0ms;
+                }
+            }
+        }
+    }
+}
+
+//-------------------------------------
+
+.o_datepicker .o_datepicker_button {
+    .o-position-absolute(0, 0);
+}
+
+// ----------------------------------
+
+.o_kanban_view.o_kanban_grouped {
+    .o_kanban_group .o_kanban_header {
+        color: white;
+        .o_kanban_config i {
+            color: #ccc;
+            &:hover {
+                background-color: darken(@gray-light, 10%);
+            }
+        }
+        .o_kanban_quick_add > i {
+            color: white;
+            &:hover {
+                background-color: @odoo-brand-optional;
+            }
+        }
+    }
+
+    .o_kanban_group.o_column_folded {
+        background-color: @gray-light;
+        border-color: @odoo-main-text-color;
+        &:hover {
+            background-color: darken(@gray-light, 10%);
+        }
+    }
+
+    .o_column_quick_create {
+        background-color: @odoo-main-text-color;
+        &:hover {
+            background-color: darken(@gray-light, 10%);
+        }
+        .o_column_header {
+            .o_kanban_add_column > i {
+                color: white;
+            }
+            .o_kanban_title {
+                color: @gray-lighter;
+            }
+        }
+    }
+}
+
+//-------------------------------------------
+.o_shortcut_table {
+    border-collapse: separate;
+    border-spacing: 0 1em;
+
+    .o_key {
+        background-color: #F4F7F8;
+        border-radius: 3px;
+        border: 1px solid #B4B4B4;
+        @shadowvalue: 0px 1px 1px rgba(0,0,0,0.2), inset 0px -1px 1px 1px rgba(230,230,230,0.8), inset 0px 2px 0px 0px rgba(255,255,255,0.8);
+        .box-shadow(@shadowvalue);
+        display: inline-block;
+        font-family: Consolas,"Liberation Mono",Courier,monospace;
+        font-size: 0.85em;
+        padding: 2px 4px;
+    }
+} 
+
+//------------------------------------------------
+.o_list_view.table {
+    border: none;
+    thead, tfoot, td, th {
+        border: none;
+    }
+
+    thead {
+        background-color: @odoo-list-grey;
+        > tr > th.o_column_sortable:hover {
+            background-color: darken(@odoo-list-grey, 5%);
+        }
+    }
+
+    tbody tr.o_group_header {
+        background-color: @odoo-list-group-header-color;
+        background-image: none;
+        border-top: 1px solid @odoo-list-grey;
+    }
+}
+//-----------------------------------------
+
+.o_menu_search {
+    .o-flex-display();
+    .o-flex(0, 0, auto); 
+    width: 100%;
+    max-width: @screen-sm-min;
+    height: @odoo-navbar-height;
+    background-color: fade(lightgrey, 30);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+    @media (min-width: @screen-md-min) {
+        margin-top: 25px;
+    }
+    margin-bottom: 8px;
+    align-items: center;
+    border-radius: 4px;
+
+    &.o_bar_hidden {
+        opacity: 0;
+    }
+
+    .o_menu_search_icon {
+        .o-flex(0, 0, auto);
+        padding: 10px;
+        font-size: 28px;
+        color: white;
+    }
+
+    .o_menu_search_input {
+        .o-flex(1, 0, 0);
+        border: none;
+        padding: 5px;
+        background-color: rgba(0, 0, 0, 0);
+        color: white;
+        &:focus {
+            outline: none;
+        }
+        .o-placeholder() { // Rules below need to be separeted. Otherwise all browsers will discard the whole rule.
+            color: white;
+            opacity: 0.5;
+        }
+        &::-webkit-input-placeholder { // WebKit, Blink, Edge
+            .o-placeholder();
+        }
+        &::-moz-placeholder { // Mozilla Firefox 19+
+            .o-placeholder();
+        }
+        &:-ms-input-placeholder { // Internet Explorer 10-11
+            .o-placeholder();
+        }
+    }
+}
+
+//--------------------------------------------------
+
+.o_web_client.o_touch_device {
+    .li-a-padding() {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .open .dropdown-menu {
+        > li > a {
+            .li-a-padding();
+        }
+    }
+
+    .ui-autocomplete .ui-menu-item > a {
+        .li-a-padding();
+    }
+
+    .btn-sm, .btn-xs {
+        font-size: @font-size-base;
+        padding: 7px 14px;
+    }
+
+    .btn-icon {
+        font-size: 1.3em;
+        padding: 2px 10px;
+    }
+}
