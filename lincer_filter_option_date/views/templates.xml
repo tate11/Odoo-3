@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="lincer_filter_option_date_assets_backend" name="lincer_filter_option_date assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/lincer_filter_option_date/static/src/js/filter.js"></script>
+        	<link id="lincer_filter_option_date_css" rel='stylesheet' href='/lincer_filter_option_date/static/src/css/base.css'/>
+        </xpath>
+    </template>
+</odoo>
